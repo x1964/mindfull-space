@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MindfulSpace Pro | Light Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+<link rel="shortcut icon" href="mindflow-logo.svg" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --bg-deep: #f8fafc;
+  --accent-primary: #6366f1;
+  --accent-secondary: #ec489a;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --neon-glow: 0 0 20px rgba(99, 102, 241, 0.15);
+  --grid-color: rgba(0, 0, 0, 0.05);
+}
+
+* { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+body {
+  margin: 0; padding: 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+  font-family: 'Tajawal', sans-serif;
+  overflow: hidden;
+  color: var(--text-main);
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+}
+
+.ui-layer {
+  position: fixed; z-index: 1000;
+  pointer-events: none;
+  width: 100%; height: 100%; top: 0; left: 0;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 20px;
+}
+
+.navbar {
+  pointer-events: auto;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  align-self: center;
+  max-width: 900px;
+  width: 100%;
+  animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand i { font-size: 1.6rem; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.brand span { font-weight: 700; font-size: 1.2rem; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+.tools { display: flex; gap: 10px; }
+.tool-btn {
+  background: rgba(0, 0, 0, 0.03); border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--text-muted); width: 40px; height: 40px; border-radius: 12px;
+  cursor: pointer; transition: all 0.2s ease; display: grid; place-items: center;
+  font-size: 1rem;
+}
+.tool-btn:hover { background: var(--accent-primary); color: white; transform: translateY(-2px); border-color: var(--accent-primary); }
+
+.fab-wrapper {
+  pointer-events: auto;
+  position: absolute; bottom: 30px; left: 30px;
+  display: flex; flex-direction: column-reverse; gap: 12px; align-items: flex-start;
+}
+
+.fab-main {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-primary), #818cf8);
+  border: none; color: white; font-size: 1.5rem;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+  cursor: pointer; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: grid; place-items: center;
+}
+.fab-main:hover { transform: scale(1.1) rotate(90deg); }
+.fab-main.active { transform: rotate(45deg); background: linear-gradient(135deg, var(--accent-secondary), #f472b6); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3); }
+
+.fab-options {
+  display: flex; flex-direction: column; gap: 10px;
+  opacity: 0; transform: translateY(20px) scale(0.8);
+  pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fab-wrapper.open .fab-options { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+.fab-item {
+  background: white;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--text-main);
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.fab-item i { color: var(--accent-primary); }
+.fab-item:hover { background: var(--accent-primary); color: white; transform: translateX(-5px); }
+.fab-item:hover i { color: white; }
+
+#viewport {
+  width: 100vw; height: 100vh; overflow: hidden; cursor: grab;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+#viewport:active { cursor: grabbing; }
+
+#world {
+  position: absolute; top: 0; left: 0;
+  transform-origin: 0 0;
+  width: 0; height: 0;
+  will-change: transform;
+}
+
+.item {
+  position: absolute;
+  background: white;
+  backdrop-filter: blur(0);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  padding: 0;
+  box-shadow: var(--shadow-card);
+  min-width: 260px;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+  overflow: hidden;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: text;
+}
+
+.item:hover, .item.active {
+  border-color: var(--accent-primary);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  z-index: 999;
+}
+
+.item-header {
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #f8fafc, #ffffff);
+  cursor: grab;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.item-header:active { cursor: grabbing; }
+.item-actions { opacity: 0; transition: opacity 0.2s; display: flex; gap: 8px; }
+.item:hover .item-actions { opacity: 1; }
+.action-icon { cursor: pointer; padding: 4px; border-radius: 8px; transition: 0.2s; color: var(--text-muted); }
+.action-icon:hover { background: rgba(0,0,0,0.05); color: var(--accent-secondary); }
+
+.item-body {
+  padding: 18px;
+  flex: 1;
+  min-height: 100px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  background: white;
+}
+.item-body[contenteditable="true"]:empty:before {
+  content: 'اكتب شيئاً رائعاً...';
+  color: rgba(0,0,0,0.3);
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+.todo-item:hover { background: #f1f5f9; }
+.todo-item.completed span { text-decoration: line-through; opacity: 0.6; }
+.todo-check {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--accent-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  transition: 0.2s;
+}
+.todo-check:checked {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+.todo-check:checked::after {
+  content: '✓';
+  position: absolute;
+  top: -1px;
+  left: 3px;
+  font-size: 14px;
+  color: white;
+}
+
+.timer-display {
+  font-size: 2.8rem;
+  font-family: monospace;
+  text-align: center;
+  margin: 15px 0;
+  color: var(--accent-primary);
+  font-weight: 700;
+}
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.btn-sm {
+  padding: 6px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f8fafc;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Tajawal', sans-serif;
+}
+.btn-sm:hover {
+  background: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="ui-layer">
+  <div class="navbar">
+    <div class="brand">
+      <img src="mindflow-logo.svg" alt="MindfulSpace Logo" style="width:32px; height:32px;">
+      <span>MindfulSpace</span>
+    </div>
+    <div class="tools">
+      <div class="tool-btn" id="resetViewBtn" title="إعادة ضبط العرض"><i class="fa-solid fa-compress"></i></div>
+      <div class="tool-btn" id="exportBtn" title="تصدير البيانات"><i class="fa-solid fa-download"></i></div>
+      <div class="tool-btn" id="clearBtn" title="مسح الكل"><i class="fa-solid fa-trash"></i></div>
+    </div>
+  </div>
+
+  <div class="fab-wrapper" id="fabWrapper">
+    <button class="fab-main" id="fabBtn"><i class="fa-solid fa-plus"></i></button>
+    <div class="fab-options">
+      <div class="fab-item" id="createNoteBtn"><i class="fa-regular fa-note-sticky"></i> ملاحظة جديدة</div>
+      <div class="fab-item" id="createTodoBtn"><i class="fa-solid fa-list-check"></i> قائمة مهام</div>
+      <div class="fab-item" id="createPomodoroBtn"><i class="fa-solid fa-clock"></i> بومودورو</div>
+      <div class="fab-item" id="createStopwatchBtn"><i class="fa-solid fa-stopwatch"></i> ساعة إيقاف</div>
+    </div>
+  </div>
+</div>
+
+<div id="viewport">
+  <div id="world"></div>
+</div>
+
+<script>
+// --- State Management ---
+const state = {
+  items: JSON.parse(localStorage.getItem('mindful_items') || '[]'),
+  view: JSON.parse(localStorage.getItem('mindful_view') || '{"x":0,"y":0,"scale":1}'),
+  nextId: (() => {
+    const ids = JSON.parse(localStorage.getItem('mindful_items') || '[]').map(i => i.id);
+    return ids.length ? Math.max(...ids) + 1 : Date.now();
+  })()
+};
+
+// --- DOM Elements ---
+const world = document.getElementById('world');
+const viewport = document.getElementById('viewport');
+
+// --- Init ---
+function init() {
+  applyView();
+  state.items.forEach(item => renderItem(item));
+
+  setInterval(updateTimers, 1000);
+  setInterval(saveState, 2000);
+
+  setupEventListeners();
+}
+
+function setupEventListeners() {
+  document.getElementById('resetViewBtn').addEventListener('click', resetView);
+  document.getElementById('exportBtn').addEventListener('click', exportData);
+  document.getElementById('clearBtn').addEventListener('click', clearCanvas);
+  document.getElementById('createNoteBtn').addEventListener('click', () => createItem('note'));
+  document.getElementById('createTodoBtn').addEventListener('click', () => createItem('todo'));
+  document.getElementById('createPomodoroBtn').addEventListener('click', () => createItem('pomodoro'));
+  document.getElementById('createStopwatchBtn').addEventListener('click', () => createItem('stopwatch'));
+
+  const fabBtn = document.getElementById('fabBtn');
+  const fabWrapper = document.getElementById('fabWrapper');
+  fabBtn.addEventListener('click', () => {
+    fabWrapper.classList.toggle('open');
+    fabBtn.classList.toggle('active');
+  });
+}
+
+// --- Canvas Logic (Pan & Zoom) ---
+let isPanning = false;
+let startX, startY, initialViewX, initialViewY;
+
+viewport.addEventListener('mousedown', (e) => {
+  if(e.target === viewport || e.target === world) {
+    isPanning = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    initialViewX = state.view.x;
+    initialViewY = state.view.y;
+    viewport.style.cursor = 'grabbing';
+  }
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (!isPanning) return;
+  const dx = (e.clientX - startX);
+  const dy = (e.clientY - startY);
+  state.view.x = initialViewX + dx;
+  state.view.y = initialViewY + dy;
+  applyView();
+});
+
+window.addEventListener('mouseup', () => {
+  isPanning = false;
+  viewport.style.cursor = 'grab';
+});
+
+viewport.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const zoomSensitivity = 0.005;
+  const delta = -e.deltaY * zoomSensitivity;
+  const newScale = Math.min(Math.max(0.3, state.view.scale + delta), 2.5);
+  state.view.scale = newScale;
+  applyView();
+}, { passive: false });
+
+function applyView() {
+  world.style.transform = `translate(${state.view.x}px, ${state.view.y}px) scale(${state.view.scale})`;
+  localStorage.setItem('mindful_view', JSON.stringify(state.view));
+}
+
+function resetView() {
+  state.view = { x: 0, y: 0, scale: 1 };
+  applyView();
+}
+
+// --- Item Factory ---
+function createItem(type) {
+  const rect = viewport.getBoundingClientRect();
+  const centerX = (-state.view.x + rect.width/2) / state.view.scale;
+  const centerY = (-state.view.y + rect.height/2) / state.view.scale;
+  const randomOffsetX = (Math.random() - 0.5) * 200;
+  const randomOffsetY = (Math.random() - 0.5) * 200;
+
+  const item = {
+    id: state.nextId++,
+    type: type,
+    x: centerX + randomOffsetX,
+    y: centerY + randomOffsetY,
+    title: type === 'note' ? '📝 ملاحظة' : (type === 'todo' ? '✓ قائمة مهام' : (type === 'pomodoro' ? '🍅 بومودورو' : '⏱️ ساعة إيقاف')),
+    data: type === 'todo' ? [] : (type === 'pomodoro' ? { time: 25 * 60, active: false } : { time: 0, active: false })
+  };
+
+  if (type === 'note') item.content = '';
+
+  state.items.push(item);
+  renderItem(item);
+  saveState();
+
+  const fabWrapper = document.getElementById('fabWrapper');
+  fabWrapper.classList.remove('open');
+  document.getElementById('fabBtn').classList.remove('active');
+}
+
+// --- Rendering ---
+function renderItem(itemData) {
+  const existingEl = document.getElementById(`item-${itemData.id}`);
+  if (existingEl) existingEl.remove();
+
+  const el = document.createElement('div');
+  el.className = 'item';
+  el.id = `item-${itemData.id}`;
+  el.style.transform = `translate(${itemData.x}px, ${itemData.y}px)`;
+
+  const header = document.createElement('div');
+  header.className = 'item-header';
+  header.innerHTML = `
+    <span>${itemData.title}</span>
+    <div class="item-actions">
+      <i class="fa-regular fa-trash-can action-icon" data-action="delete"></i>
+    </div>
+  `;
+
+  const body = document.createElement('div');
+  body.className = 'item-body';
+
+  if (itemData.type === 'note') {
+    body.contentEditable = "true";
+    body.innerHTML = itemData.content || '';
+    body.addEventListener('input', () => {
+      itemData.content = body.innerHTML;
+      saveState();
+    });
+  }
+  else if (itemData.type === 'todo') {
+    renderTodoList(body, itemData);
+  }
+  else if (itemData.type === 'pomodoro') {
+    body.innerHTML = `
+      <div class="timer-display" data-timer="${itemData.id}">${formatTime(itemData.data.time)}</div>
+      <div class="timer-controls">
+        <button class="btn-sm timer-play" data-id="${itemData.id}" data-type="pomodoro"><i class="fa-solid fa-play"></i> بدء</button>
+        <button class="btn-sm timer-reset" data-id="${itemData.id}" data-type="pomodoro"><i class="fa-solid fa-rotate-right"></i> إعادة</button>
+      </div>
+      <div style="text-align:center; margin-top:12px; font-size:0.8rem; opacity:0.7;">🍅 25 دقيقة تركيز</div>
+    `;
+    setupTimerEvents(body, itemData);
+  }
+  else if (itemData.type === 'stopwatch') {
+    body.innerHTML = `
+      <div class="timer-display" data-timer="${itemData.id}" style="color:var(--accent-secondary)">${formatStopwatch(itemData.data.time)}</div>
+      <div class="timer-controls">
+        <button class="btn-sm timer-play" data-id="${itemData.id}" data-type="stopwatch"><i class="fa-solid fa-play"></i> بدء</button>
+        <button class="btn-sm timer-reset" data-id="${itemData.id}" data-type="stopwatch"><i class="fa-solid fa-rotate-right"></i> إعادة</button>
+      </div>
+    `;
+    setupTimerEvents(body, itemData);
+  }
+
+  el.appendChild(header);
+  el.appendChild(body);
+  world.appendChild(el);
+
+  const deleteIcon = header.querySelector('[data-action="delete"]');
+  deleteIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    deleteItem(itemData.id);
+  });
+
+  setupDrag(el, itemData);
+
+  el.addEventListener('mousedown', () => {
+    document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+  });
+}
+
+function renderTodoList(container, itemData) {
+  container.innerHTML = '';
+
+  if (itemData.data.length === 0) {
+    const emptyMsg = document.createElement('div');
+    emptyMsg.style.textAlign = 'center';
+    emptyMsg.style.color = '#94a3b8';
+    emptyMsg.style.padding = '20px';
+    emptyMsg.innerHTML = '<i class="fa-regular fa-clipboard"></i><br>لا توجد مهام بعد';
+    container.appendChild(emptyMsg);
+  }
+
+  itemData.data.forEach((todo, idx) => {
+    const div = document.createElement('div');
+    div.className = `todo-item ${todo.done ? 'completed' : ''}`;
+    div.innerHTML = `
+      <input type="checkbox" class="todo-check" ${todo.done ? 'checked' : ''}>
+      <span style="flex:1">${escapeHtml(todo.text)}</span>
+      <i class="fa-regular fa-circle-xmark" style="cursor:pointer; opacity:0.5; font-size:1rem; transition:0.2s" data-idx="${idx}"></i>
+    `;
+
+    const check = div.querySelector('input');
+    check.addEventListener('change', (e) => {
+      todo.done = e.target.checked;
+      div.classList.toggle('completed');
+      saveState();
+    });
+
+    const deleteTodoBtn = div.querySelector('.fa-circle-xmark');
+    deleteTodoBtn.addEventListener('click', () => {
+      itemData.data.splice(idx, 1);
+      renderTodoList(container, itemData);
+      saveState();
+    });
+
+    container.appendChild(div);
+  });
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn-sm';
+  addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> إضافة مهمة جديدة';
+  addBtn.style.width = '100%';
+  addBtn.style.marginTop = '12px';
+  addBtn.addEventListener('click', () => {
+    const text = prompt('✏️ أدخل المهمة:');
+    if(text && text.trim()) {
+      itemData.data.push({ text: text.trim(), done: false });
+      renderTodoList(container, itemData);
+      saveState();
+    }
+  });
+  container.appendChild(addBtn);
+}
+
+function setupTimerEvents(container, itemData) {
+  const playBtn = container.querySelector('.timer-play');
+  const resetBtn = container.querySelector('.timer-reset');
+
+  if (playBtn) {
+    playBtn.addEventListener('click', () => toggleTimer(itemData.id, playBtn));
+  }
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => resetTimer(itemData.id, itemData.type));
+  }
+}
+
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+function formatStopwatch(seconds) {
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  if (hrs > 0) {
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+// --- Drag & Drop Logic ---
+function setupDrag(el, itemData) {
+  const header = el.querySelector('.item-header');
+  let isDragging = false, dragStartX, dragStartY, initX, initY;
+
+  header.addEventListener('mousedown', (e) => {
+    if (e.target.closest('.item-actions')) return;
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    initX = itemData.x;
+    initY = itemData.y;
+    el.style.transition = 'none';
+    e.stopPropagation();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const dx = (e.clientX - dragStartX) / state.view.scale;
+    const dy = (e.clientY - dragStartY) / state.view.scale;
+    itemData.x = initX + dx;
+    itemData.y = initY + dy;
+    el.style.transform = `translate(${itemData.x}px, ${itemData.y}px)`;
+  });
+
+  window.addEventListener('mouseup', () => {
+    if(isDragging) {
+      isDragging = false;
+      el.style.transition = '';
+      saveState();
+    }
+  });
+}
+
+// --- Timer Logic ---
+function updateTimers() {
+  let needsSave = false;
+  state.items.forEach(item => {
+    if (item.type === 'pomodoro' || item.type === 'stopwatch') {
+      if (item.data.active) {
+        if (item.type === 'stopwatch') {
+          item.data.time++;
+        } else if (item.type === 'pomodoro' && item.data.time > 0) {
+          item.data.time--;
+        }
+
+        updateTimerDisplay(item.id, item.data.time, item.type);
+        needsSave = true;
+
+        if (item.type === 'pomodoro' && item.data.time === 0 && item.data.active) {
+          item.data.active = false;
+          const playBtn = document.querySelector(`#item-${item.id} .timer-play`);
+          if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
+          alert("🎉 مبروك! انتهت جلسة التركيز! حان وقت الاستراحة 🍵");
+        }
+      }
+    }
+  });
+  if (needsSave) saveState();
+}
+
+function updateTimerDisplay(id, seconds, type) {
+  const display = document.querySelector(`#item-${id} [data-timer="${id}"]`);
+  if (!display) return;
+  display.innerText = type === 'pomodoro' ? formatTime(seconds) : formatStopwatch(seconds);
+}
+
+function toggleTimer(id, btnElement) {
+  const item = state.items.find(i => i.id === id);
+  if (!item) return;
+  item.data.active = !item.data.active;
+  if (item.data.active) {
+    btnElement.innerHTML = '<i class="fa-solid fa-pause"></i> إيقاف';
+  } else {
+    btnElement.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
+  }
+  saveState();
+}
+
+function resetTimer(id, type) {
+  const item = state.items.find(i => i.id === id);
+  if (!item) return;
+  item.data.active = false;
+  item.data.time = type === 'pomodoro' ? 25 * 60 : 0;
+  updateTimerDisplay(id, item.data.time, type);
+  const playBtn = document.querySelector(`#item-${id} .timer-play`);
+  if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
+  saveState();
+}
+
+// --- Utilities ---
+function deleteItem(id) {
+  if(confirm('🗑️ هل أنت متأكد من حذف هذا العنصر؟')) {
+    state.items = state.items.filter(i => i.id !== id);
+    const element = document.getElementById(`item-${id}`);
+    if (element) element.remove();
+    saveState();
+  }
+}
+
+function clearCanvas() {
+  if(confirm('⚠️ هل أنت متأكد من مسح كل شيء؟ هذا الإجراء لا يمكن التراجع عنه! ⚠️')) {
+    state.items = [];
+    world.innerHTML = '';
+    saveState();
+  }
+}
+
+function saveState() {
+  localStorage.setItem('mindful_items', JSON.stringify(state.items));
+}
+
+function exportData() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.items, null, 2));
+  const downloadAnchorNode = document.createElement('a');
+  downloadAnchorNode.setAttribute("href", dataStr);
+  downloadAnchorNode.setAttribute("download", `mindful_backup_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`);
+  document.body.appendChild(downloadAnchorNode);
+  downloadAnchorNode.click();
+  downloadAnchorNode.remove();
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Start
+init();
+</script>
+</body>
+</html>

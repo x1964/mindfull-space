@@ -1,0 +1,41 @@
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <!-- Gradient من ألوانك -->
+    <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#ec489a"/>
+    </linearGradient>
+
+    <!-- Glow بنفس الaccent -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Container -->
+  <rect x="8" y="8" width="56" height="56" rx="18"
+        stroke="url(#brandGrad)"
+        stroke-width="2"
+        fill="none"/>
+
+  <!-- Flow Path -->
+  <path d="M16 42
+           C24 20, 34 20, 42 38
+           S54 52, 56 30"
+        stroke="url(#brandGrad)"
+        stroke-width="3.5"
+        fill="none"
+        stroke-linecap="round"
+        filter="url(#softGlow)"/>
+
+  <!-- Nodes -->
+  <circle cx="16" cy="42" r="3" fill="#6366f1"/>
+  <circle cx="42" cy="38" r="3" fill="#ec489a"/>
+  <circle cx="56" cy="30" r="3" fill="#6366f1"/>
+
+</svg>

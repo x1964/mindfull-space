@@ -1,0 +1,11 @@
+/* تحسينات الموبايل */
+@media(max-width:600px){
+  #fabBtn{width:60px;height:60px;font-size:28px;}
+  .fab-item{font-size:15px;padding:12px 18px;}
+  .note{width:180px; min-height:120px;}
+  .note .content{max-height:130px;font-size:14px;}
+}
+
+/* تحسين السحب على الموبايل */
+.note:active{cursor:grabbing;}
+.board{touch-action: pan-x pan-y;}
