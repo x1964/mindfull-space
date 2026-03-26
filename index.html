@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#6366f1">
     <title>MindfulSpace</title>
-
+    <link rel="shortcut icon" href="mindflow-logo.svg" type="image/x-icon">
     <!-- الخطوط والأيقونات -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
@@ -22,6 +22,8 @@
             --primary: #6366f1;
             --secondary: #ec489a;
             --tertiary: #8b5cf6;
+            --pomodoro-color: #f97316;
+            --break-color: #22c55e;
 
             /* ألوان الخلفية */
             --bg-start: #f8fafc;
@@ -115,7 +117,7 @@
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 28px;
+            border-radius: 30px;
             padding: 10px 16px;
             display: flex;
             align-items: center;
@@ -132,7 +134,6 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
             border-radius: 28px 28px 0 0;
         }
 
@@ -146,8 +147,8 @@
         }
 
         .brand svg {
-            width: 32px;
-            height: 32px;
+            width: 33px;
+            height: 33px;
         }
 
         .brand span {
@@ -532,7 +533,90 @@
         }
 
         /* ============================================
-           SECTION 8: المؤقت (Timer)
+           SECTION 8: البومودورو (Pomodoro)
+           ============================================ */
+        .pomodoro-container {
+            text-align: center;
+        }
+
+        .pomodoro-timer {
+            font-size: 2.5rem;
+            font-family: monospace;
+            text-align: center;
+            margin: 16px 0;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .pomodoro-timer.work {
+            color: var(--pomodoro-color);
+            background: linear-gradient(135deg, var(--pomodoro-color), #fdba74);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pomodoro-timer.break {
+            color: var(--break-color);
+            background: linear-gradient(135deg, var(--break-color), #86efac);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pomodoro-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .pomodoro-progress-bar {
+            height: 100%;
+            transition: width 1s linear;
+        }
+
+        .pomodoro-progress-bar.work {
+            background: linear-gradient(90deg, var(--pomodoro-color), #fdba74);
+        }
+
+        .pomodoro-progress-bar.break {
+            background: linear-gradient(90deg, var(--break-color), #86efac);
+        }
+
+        .pomodoro-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .pomodoro-stats {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--glass-border);
+            font-size: 0.75rem;
+            color: var(--text-gray);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-number {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        /* ============================================
+           SECTION 9: المؤقت العادي (Stopwatch)
            ============================================ */
         .timer-display {
             font-size: 2rem;
@@ -585,8 +669,18 @@
             color: white;
         }
 
+        .btn-pomodoro {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--pomodoro-color);
+        }
+
+        .btn-pomodoro:active {
+            background: var(--pomodoro-color);
+            color: white;
+        }
+
         /* ============================================
-           SECTION 9: الإشعارات (Toast)
+           SECTION 10: الإشعارات (Toast)
            ============================================ */
         .toast-container {
             position: fixed;
@@ -617,9 +711,10 @@
 
         .toast.success { border-right: 3px solid var(--success); }
         .toast.error { border-right: 3px solid var(--danger); }
+        .toast.pomodoro { border-right: 3px solid var(--pomodoro-color); }
 
         /* ============================================
-           SECTION 10: قائمة السياق (Context Menu)
+           SECTION 11: قائمة السياق (Context Menu)
            ============================================ */
         .context-menu {
             position: fixed;
@@ -650,7 +745,7 @@
         }
 
         /* ============================================
-           SECTION 11: النافذة المنبثقة (Modal)
+           SECTION 12: النافذة المنبثقة (Modal)
            ============================================ */
         .modal-overlay {
             position: fixed;
@@ -695,7 +790,7 @@
         }
 
         /* ============================================
-           SECTION 12: الرسوم المتحركة
+           SECTION 13: الرسوم المتحركة
            ============================================ */
         @keyframes slideDown {
             from {
@@ -708,12 +803,24 @@
             }
         }
 
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pomodoro-complete {
+            animation: pulse 0.5s ease;
+        }
+
         /* ============================================
-           SECTION 13: تحسينات الموبايل
+           SECTION 14: تحسينات الموبايل
            ============================================ */
         @media (max-width: 480px) {
             .card {
                 min-width: 240px;
+            }
+            .pomodoro-timer {
+                font-size: 2rem;
             }
             .timer-display {
                 font-size: 1.8rem;
@@ -766,7 +873,8 @@
         <div class="fab-options">
             <div class="fab-item" data-type="note"><i class="fa-regular fa-note-sticky"></i><span>ملاحظة</span></div>
             <div class="fab-item" data-type="todo"><i class="fa-solid fa-list-check"></i><span>مهام</span></div>
-            <div class="fab-item" data-type="timer"><i class="fa-solid fa-clock"></i><span>مؤقت</span></div>
+            <div class="fab-item" data-type="pomodoro"><i class="fa-solid fa-clock"></i><span>بومودورو</span></div>
+            <div class="fab-item" data-type="stopwatch"><i class="fa-solid fa-stopwatch"></i><span>ساعة</span></div>
         </div>
         <button class="fab-main" id="fabBtn"><i class="fa-solid fa-plus"></i></button>
     </div>
@@ -880,13 +988,15 @@
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i><span>${msg}</span>`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-check-circle' : type === 'pomodoro' ? 'fa-clock' : 'fa-info-circle'}"></i><span>${msg}</span>`;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 2000);
+            setTimeout(() => toast.remove(), 2500);
         }
 
         function formatTime(sec) {
-            return `${Math.floor(sec / 60)}:${(sec % 60).toString().padStart(2, '0')}`;
+            const mins = Math.floor(sec / 60);
+            const remainingSecs = sec % 60;
+            return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`;
         }
 
         function formatDate(ts) {
@@ -914,19 +1024,43 @@
             const x = (-App.view.x + rect.width / 2) / App.view.scale + (Math.random() - 0.5) * 80;
             const y = (-App.view.y + rect.height / 2) / App.view.scale + (Math.random() - 0.5) * 80;
 
-            const titles = { note: '📝 ملاحظة', todo: '✓ مهام', timer: '⏱️ مؤقت' };
+            const titles = {
+                note: '📝 ملاحظة',
+                todo: '✓ مهام',
+                pomodoro: '🍅 بومودورو',
+                stopwatch: '⏱️ ساعة'
+            };
 
-            const card = {
+            let card = {
                 id: App.nextId++,
                 type: type,
                 x: x, y: y,
                 title: titles[type],
-                content: type === 'note' ? '' : null,
-                data: type === 'todo' ? [] : (type === 'timer' ? { time: 0, active: false, type: 'stopwatch' } : null),
                 pinned: false,
                 minimized: false,
                 createdAt: Date.now()
             };
+
+            if (type === 'note') {
+                card.content = '';
+            } else if (type === 'todo') {
+                card.data = [];
+            } else if (type === 'pomodoro') {
+                card.data = {
+                    mode: 'work',
+                    workTime: 25 * 60,
+                    breakTime: 5 * 60,
+                    time: 25 * 60,
+                    active: false,
+                    sessions: 0,
+                    totalFocusTime: 0
+                };
+            } else if (type === 'stopwatch') {
+                card.data = {
+                    time: 0,
+                    active: false
+                };
+            }
 
             App.cards.push(card);
             renderCard(card);
@@ -946,7 +1080,12 @@
             el.id = `card-${card.id}`;
             el.style.transform = `translate(${card.x}px, ${card.y}px)`;
 
-            const icons = { note: 'fa-note-sticky', todo: 'fa-list-check', timer: 'fa-clock' };
+            const icons = {
+                note: 'fa-note-sticky',
+                todo: 'fa-list-check',
+                pomodoro: 'fa-clock',
+                stopwatch: 'fa-stopwatch'
+            };
 
             el.innerHTML = `
                 <div class="card-header">
@@ -968,7 +1107,7 @@
             const body = document.getElementById(`body-${card.id}`);
 
             if (card.type === 'note') {
-                body.innerHTML = `<div contenteditable="true" style="min-height:100px">${card.content || ''}</div>`;
+                body.innerHTML = `<div contenteditable="true" style="min-height:100px; outline:none;">${card.content || ''}</div>`;
                 body.querySelector('div').addEventListener('input', e => {
                     card.content = e.target.innerHTML;
                     History.save();
@@ -978,6 +1117,9 @@
                 if (!card.data) card.data = [];
                 const renderTodos = () => {
                     body.innerHTML = '';
+                    if (card.data.length === 0) {
+                        body.innerHTML = '<div style="text-align:center; color:var(--text-light); padding:20px;">✨ أضف مهامك هنا</div>';
+                    }
                     card.data.forEach((todo, i) => {
                         const div = document.createElement('div');
                         div.className = `todo-item ${todo.done ? 'completed' : ''}`;
@@ -1005,7 +1147,7 @@
                     const btn = document.createElement('button');
                     btn.className = 'btn-sm';
                     btn.style.cssText = 'width:100%; margin-top:8px';
-                    btn.innerHTML = '<i class="fa-solid fa-plus"></i> إضافة';
+                    btn.innerHTML = '<i class="fa-solid fa-plus"></i> إضافة مهمة';
                     btn.onclick = () => {
                         card.data.push({ text: '', done: false });
                         renderTodos();
@@ -1014,28 +1156,101 @@
                 };
                 renderTodos();
             }
-            else if (card.type === 'timer') {
-                if (!card.data) card.data = { time: 0, active: false, type: 'stopwatch' };
-                const updateDisplay = () => {
-                    const d = body.querySelector('.timer-display');
-                    if (d) d.textContent = formatTime(card.data.time);
+            else if (card.type === 'pomodoro') {
+                const data = card.data;
+                const updatePomodoroDisplay = () => {
+                    const timerDiv = body.querySelector('.pomodoro-timer');
+                    const progressBar = body.querySelector('.pomodoro-progress-bar');
+                    if (timerDiv) {
+                        timerDiv.textContent = formatTime(data.time);
+                        timerDiv.className = `pomodoro-timer ${data.mode}`;
+                    }
+                    if (progressBar) {
+                        const totalTime = data.mode === 'work' ? data.workTime : data.breakTime;
+                        const progress = ((totalTime - data.time) / totalTime) * 100;
+                        progressBar.style.width = `${progress}%`;
+                        progressBar.className = `pomodoro-progress-bar ${data.mode}`;
+                    }
+                    const statsDiv = body.querySelector('.pomodoro-stats');
+                    if (statsDiv) {
+                        const focusHours = Math.floor(data.totalFocusTime / 3600);
+                        const focusMins = Math.floor((data.totalFocusTime % 3600) / 60);
+                        statsDiv.innerHTML = `
+                            <div class="stat-item"><i class="fa-solid fa-fire"></i><span class="stat-number">${data.sessions}</span><span>جلسة</span></div>
+                            <div class="stat-item"><i class="fa-solid fa-hourglass-half"></i><span class="stat-number">${focusHours > 0 ? focusHours + 'س' : focusMins + 'د'}</span><span>تركيز</span></div>
+                        `;
+                    }
                 };
+
                 body.innerHTML = `
-                    <div class="timer-display">${formatTime(card.data.time)}</div>
-                    <div class="timer-controls">
-                        <button class="btn-sm timer-toggle"><i class="fa-solid fa-play"></i> بدء</button>
-                        <button class="btn-sm timer-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                    <div class="pomodoro-container">
+                        <div class="pomodoro-progress">
+                            <div class="pomodoro-progress-bar ${data.mode}" style="width: 0%"></div>
+                        </div>
+                        <div class="pomodoro-timer ${data.mode}">${formatTime(data.time)}</div>
+                        <div class="pomodoro-controls">
+                            <button class="btn-sm pomodoro-toggle"><i class="fa-solid ${data.active ? 'fa-pause' : 'fa-play'}"></i> ${data.active ? 'إيقاف' : 'بدء'}</button>
+                            <button class="btn-sm pomodoro-reset"><i class="fa-solid fa-rotate-right"></i> إعادة</button>
+                            <button class="btn-sm btn-pomodoro pomodoro-skip"><i class="fa-solid fa-forward"></i> تخطي</button>
+                        </div>
+                        <div class="pomodoro-stats">
+                            <div class="stat-item"><i class="fa-solid fa-fire"></i><span class="stat-number">${data.sessions}</span><span>جلسة</span></div>
+                            <div class="stat-item"><i class="fa-solid fa-hourglass-half"></i><span class="stat-number">0</span><span>تركيز</span></div>
+                        </div>
                     </div>
                 `;
-                body.querySelector('.timer-toggle').onclick = () => {
-                    card.data.active = !card.data.active;
-                    updateDisplay();
+
+                updatePomodoroDisplay();
+
+                body.querySelector('.pomodoro-toggle').onclick = () => {
+                    data.active = !data.active;
+                    const toggleBtn = body.querySelector('.pomodoro-toggle');
+                    toggleBtn.innerHTML = `<i class="fa-solid ${data.active ? 'fa-pause' : 'fa-play'}"></i> ${data.active ? 'إيقاف' : 'بدء'}`;
                     History.save();
                 };
-                body.querySelector('.timer-reset').onclick = () => {
-                    card.data.active = false;
-                    card.data.time = 0;
-                    updateDisplay();
+
+                body.querySelector('.pomodoro-reset').onclick = () => {
+                    data.active = false;
+                    data.time = data.mode === 'work' ? data.workTime : data.breakTime;
+                    updatePomodoroDisplay();
+                    const toggleBtn = body.querySelector('.pomodoro-toggle');
+                    toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
+                    History.save();
+                };
+
+                body.querySelector('.pomodoro-skip').onclick = () => {
+                    data.active = false;
+                    completePomodoroSession(card);
+                };
+            }
+            else if (card.type === 'stopwatch') {
+                const data = card.data;
+                const updateStopwatchDisplay = () => {
+                    const display = body.querySelector('.timer-display');
+                    if (display) display.textContent = formatTime(data.time);
+                };
+
+                body.innerHTML = `
+                    <div class="timer-display">${formatTime(data.time)}</div>
+                    <div class="timer-controls">
+                        <button class="btn-sm stopwatch-toggle"><i class="fa-solid fa-play"></i> بدء</button>
+                        <button class="btn-sm stopwatch-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                    </div>
+                `;
+
+                body.querySelector('.stopwatch-toggle').onclick = () => {
+                    data.active = !data.active;
+                    const btn = body.querySelector('.stopwatch-toggle');
+                    btn.innerHTML = `<i class="fa-solid ${data.active ? 'fa-pause' : 'fa-play'}"></i> ${data.active ? 'إيقاف' : 'بدء'}`;
+                    History.save();
+                };
+
+                body.querySelector('.stopwatch-reset').onclick = () => {
+                    data.active = false;
+                    data.time = 0;
+                    updateStopwatchDisplay();
+                    const btn = body.querySelector('.stopwatch-toggle');
+                    btn.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
                     History.save();
                 };
             }
@@ -1046,6 +1261,32 @@
                 e.preventDefault();
                 showContextMenu(e, card.id);
             };
+        }
+
+        function completePomodoroSession(card) {
+            const data = card.data;
+            const wasWork = data.mode === 'work';
+
+            if (wasWork) {
+                data.sessions++;
+                data.totalFocusTime += data.workTime;
+                showToast(`🎉 رائع! أكملت ${data.sessions} جلسات بومودورو`, 'success');
+            }
+
+            data.mode = wasWork ? 'break' : 'work';
+            data.time = wasWork ? data.breakTime : data.workTime;
+            data.active = false;
+
+            const msg = wasWork ? '🍵 وقت الاستراحة! استرخِ قليلاً' : '🍅 استعد للعمل! ابدأ جلسة جديدة';
+            showToast(msg, 'pomodoro');
+
+            renderCard(card);
+
+            // تأثير صوتي بسيط
+            try {
+                const audio = new Audio();
+                // يمكن إضافة صوت هنا
+            } catch(e) {}
         }
 
         function setupDrag(el, card) {
@@ -1123,6 +1364,12 @@
                 newCard.y += 40;
                 newCard.pinned = false;
                 newCard.createdAt = Date.now();
+                if (newCard.type === 'pomodoro' && newCard.data) {
+                    newCard.data.active = false;
+                }
+                if (newCard.type === 'stopwatch' && newCard.data) {
+                    newCard.data.active = false;
+                }
                 App.cards.push(newCard);
                 renderCard(newCard);
                 History.save();
@@ -1143,10 +1390,28 @@
         // ============================================
         function updateTimers() {
             App.cards.forEach(card => {
-                if (card.type === 'timer' && card.data.active) {
+                if (card.type === 'stopwatch' && card.data.active) {
                     card.data.time++;
                     const display = document.querySelector(`#body-${card.id} .timer-display`);
                     if (display) display.textContent = formatTime(card.data.time);
+                }
+                else if (card.type === 'pomodoro' && card.data.active && card.data.time > 0) {
+                    card.data.time--;
+                    const timerDiv = document.querySelector(`#body-${card.id} .pomodoro-timer`);
+                    const progressBar = document.querySelector(`#body-${card.id} .pomodoro-progress-bar`);
+                    if (timerDiv) {
+                        timerDiv.textContent = formatTime(card.data.time);
+                    }
+                    if (progressBar) {
+                        const totalTime = card.data.mode === 'work' ? card.data.workTime : card.data.breakTime;
+                        const progress = ((totalTime - card.data.time) / totalTime) * 100;
+                        progressBar.style.width = `${progress}%`;
+                    }
+
+                    if (card.data.time === 0) {
+                        card.data.active = false;
+                        completePomodoroSession(card);
+                    }
                 }
             });
         }
@@ -1331,8 +1596,7 @@
             setInterval(updateTimers, 1000);
 
             History.save();
-            showToast('مرحباً بك! 👋', 'success');
-        }
+            showToast('مرحبًا بك في MindfulSpace! 🌟', 'success');}
 
         // تشغيل التطبيق
         init();
