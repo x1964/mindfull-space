@@ -1,713 +1,2042 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MindfulSpace Pro | Light Edition</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-<link rel="shortcut icon" href="mindflow-logo.svg" type="image/x-icon">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
-  --bg-deep: #f8fafc;
-  --accent-primary: #6366f1;
-  --accent-secondary: #ec489a;
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --neon-glow: 0 0 20px rgba(99, 102, 241, 0.15);
-  --grid-color: rgba(0, 0, 0, 0.05);
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <title>MindfulSpace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap"rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="shortcut icon" href="mindflow-logo.svg" type="image/x-icon">
+    <style>
+      :root {
+        --bg-deep: #f8fafc;
+        --bg-gradient-start: #f8fafc;
+        --bg-gradient-end: #eef2ff;
+        --accent-primary: #6366f1;
+        --accent-secondary: #ec489a;
+        --accent-tertiary: #8b5cf6;
+        --glass-bg: rgba(255, 255, 255, 0.92);
+        --glass-border: rgba(0, 0, 0, 0.08);
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --text-light: #94a3b8;
+        --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+        --grid-color: rgba(0, 0, 0, 0.05);
+        --danger: #ef4444;
+        --success: #22c55e;
+        --warning: #f59e0b;
+        --info: #3b82f6;
+        --safe-bottom: env(safe-area-inset-bottom, 0px);
+        --safe-top: env(safe-area-inset-top, 0px);
+      }
 
-* { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
-body {
-  margin: 0; padding: 0;
-  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
-  font-family: 'Tajawal', sans-serif;
-  overflow: hidden;
-  color: var(--text-main);
-  height: 100vh;
-  width: 100vw;
-  user-select: none;
-}
+      [data-theme='dark'] {
+        --bg-deep: #0f172a;
+        --bg-gradient-start: #0f172a;
+        --bg-gradient-end: #1e293b;
+        --glass-bg: rgba(30, 41, 59, 0.94);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-main: #f1f5f9;
+        --text-muted: #94a3b8;
+        --text-light: #64748b;
+        --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.5);
+        --grid-color: rgba(255, 255, 255, 0.05);
+      }
 
-.ui-layer {
-  position: fixed; z-index: 1000;
-  pointer-events: none;
-  width: 100%; height: 100%; top: 0; left: 0;
-  display: flex; flex-direction: column; justify-content: space-between;
-  padding: 20px;
-}
+      * {
+        box-sizing: border-box;
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+      }
 
-.navbar {
-  pointer-events: auto;
-  display: flex; justify-content: space-between; align-items: center;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  padding: 12px 24px;
-  border-radius: 24px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  align-self: center;
-  max-width: 900px;
-  width: 100%;
-  animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(
+          135deg,
+          var(--bg-gradient-start) 0%,
+          var(--bg-gradient-end) 100%
+        );
+        font-family: 'Tajawal', sans-serif;
+        overflow: hidden;
+        color: var(--text-main);
+        height: 100vh;
+        width: 100vw;
+        user-select: none;
+        position: fixed;
+        touch-action: none;
+      }
 
-.brand { display: flex; align-items: center; gap: 12px; }
-.brand i { font-size: 1.6rem; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.brand span { font-weight: 700; font-size: 1.2rem; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      ::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--accent-primary);
+        border-radius: 3px;
+      }
 
-.tools { display: flex; gap: 10px; }
-.tool-btn {
-  background: rgba(0, 0, 0, 0.03); border: 1px solid rgba(0, 0, 0, 0.08);
-  color: var(--text-muted); width: 40px; height: 40px; border-radius: 12px;
-  cursor: pointer; transition: all 0.2s ease; display: grid; place-items: center;
-  font-size: 1rem;
-}
-.tool-btn:hover { background: var(--accent-primary); color: white; transform: translateY(-2px); border-color: var(--accent-primary); }
+      .ui-layer {
+        position: fixed;
+        z-index: 1000;
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: calc(12px + var(--safe-top)) 12px
+          calc(12px + var(--safe-bottom)) 12px;
+      }
 
-.fab-wrapper {
-  pointer-events: auto;
-  position: absolute; bottom: 30px; left: 30px;
-  display: flex; flex-direction: column-reverse; gap: 12px; align-items: flex-start;
-}
+      .navbar {
+        pointer-events: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        padding: 10px 16px;
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow-card);
+        align-self: center;
+        max-width: 100%;
+        width: 100%;
+        gap: 10px;
+        animation: slideDown 0.4s ease;
+      }
 
-.fab-main {
-  width: 60px; height: 60px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-primary), #818cf8);
-  border: none; color: white; font-size: 1.5rem;
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-  cursor: pointer; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  display: grid; place-items: center;
-}
-.fab-main:hover { transform: scale(1.1) rotate(90deg); }
-.fab-main.active { transform: rotate(45deg); background: linear-gradient(135deg, var(--accent-secondary), #f472b6); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3); }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
 
-.fab-options {
-  display: flex; flex-direction: column; gap: 10px;
-  opacity: 0; transform: translateY(20px) scale(0.8);
-  pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.fab-wrapper.open .fab-options { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+      .brand i {
+        font-size: 1.4rem;
+        background: linear-gradient(
+          135deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-.fab-item {
-  background: white;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  color: var(--text-main);
-  padding: 10px 20px;
-  border-radius: 30px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  font-size: 0.9rem;
-  white-space: nowrap;
-  transition: all 0.2s;
-}
-.fab-item i { color: var(--accent-primary); }
-.fab-item:hover { background: var(--accent-primary); color: white; transform: translateX(-5px); }
-.fab-item:hover i { color: white; }
+      .brand span {
+        font-weight: 800;
+        font-size: 1rem;
+        background: linear-gradient(
+          135deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-#viewport {
-  width: 100vw; height: 100vh; overflow: hidden; cursor: grab;
-  background-image:
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: 50px 50px;
-}
-#viewport:active { cursor: grabbing; }
+      @media (max-width: 480px) {
+        .brand span {
+          display: none;
+        }
+      }
 
-#world {
-  position: absolute; top: 0; left: 0;
-  transform-origin: 0 0;
-  width: 0; height: 0;
-  will-change: transform;
-}
+      .search-box {
+        flex: 1;
+        max-width: 200px;
+        position: relative;
+      }
 
-.item {
-  position: absolute;
-  background: white;
-  backdrop-filter: blur(0);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 24px;
-  padding: 0;
-  box-shadow: var(--shadow-card);
-  min-width: 260px;
-  max-width: 360px;
-  display: flex;
-  flex-direction: column;
-  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
-  overflow: hidden;
-  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  user-select: text;
-}
+      .search-box input {
+        width: 100%;
+        padding: 8px 32px 8px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+        background: rgba(0, 0, 0, 0.03);
+        color: var(--text-main);
+        font-family: 'Tajawal', sans-serif;
+        font-size: 0.85rem;
+      }
 
-.item:hover, .item.active {
-  border-color: var(--accent-primary);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-  z-index: 999;
-}
+      .search-box input:focus {
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+      }
 
-.item-header {
-  padding: 14px 18px;
-  background: linear-gradient(135deg, #f8fafc, #ffffff);
-  cursor: grab;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-.item-header:active { cursor: grabbing; }
-.item-actions { opacity: 0; transition: opacity 0.2s; display: flex; gap: 8px; }
-.item:hover .item-actions { opacity: 1; }
-.action-icon { cursor: pointer; padding: 4px; border-radius: 8px; transition: 0.2s; color: var(--text-muted); }
-.action-icon:hover { background: rgba(0,0,0,0.05); color: var(--accent-secondary); }
+      .search-box i {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
 
-.item-body {
-  padding: 18px;
-  flex: 1;
-  min-height: 100px;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text-main);
-  background: white;
-}
-.item-body[contenteditable="true"]:empty:before {
-  content: 'اكتب شيئاً رائعاً...';
-  color: rgba(0,0,0,0.3);
-}
+      .tools {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-shrink: 0;
+      }
 
-.todo-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-  padding: 8px 12px;
-  background: #f8fafc;
-  border-radius: 12px;
-  transition: 0.2s;
-}
-.todo-item:hover { background: #f1f5f9; }
-.todo-item.completed span { text-decoration: line-through; opacity: 0.6; }
-.todo-check {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--accent-primary);
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  transition: 0.2s;
-}
-.todo-check:checked {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
-}
-.todo-check:checked::after {
-  content: '✓';
-  position: absolute;
-  top: -1px;
-  left: 3px;
-  font-size: 14px;
-  color: white;
-}
+      .tool-btn,
+      .theme-toggle {
+        background: rgba(0, 0, 0, 0.03);
+        border: 1px solid var(--glass-border);
+        color: var(--text-muted);
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+      }
 
-.timer-display {
-  font-size: 2.8rem;
-  font-family: monospace;
-  text-align: center;
-  margin: 15px 0;
-  color: var(--accent-primary);
-  font-weight: 700;
-}
-.timer-controls {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-.btn-sm {
-  padding: 6px 18px;
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #f8fafc;
-  color: var(--text-main);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'Tajawal', sans-serif;
-}
-.btn-sm:hover {
-  background: var(--accent-primary);
-  color: white;
-  border-color: var(--accent-primary);
-}
+      .tool-btn:active,
+      .theme-toggle:active {
+        transform: scale(0.95);
+        background: var(--accent-primary);
+        color: white;
+      }
 
-@keyframes popIn {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+      .tool-btn.active {
+        background: var(--accent-primary);
+        color: white;
+      }
 
-@keyframes slideDown {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-</style>
-</head>
-<body>
+      .fab-wrapper {
+        pointer-events: auto;
+        position: absolute;
+        bottom: calc(20px + var(--safe-bottom));
+        left: 20px;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 12px;
+        align-items: flex-start;
+        z-index: 1001;
+      }
 
-<div class="ui-layer">
-  <div class="navbar">
-    <div class="brand">
-      <img src="mindflow-logo.svg" alt="MindfulSpace Logo" style="width:32px; height:32px;">
-      <span>MindfulSpace</span>
+      .fab-main {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--accent-primary),
+          var(--accent-tertiary)
+        );
+        border: none;
+        color: white;
+        font-size: 1.4rem;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .fab-main:active {
+        transform: scale(0.95);
+      }
+
+      .fab-main.active {
+        transform: rotate(45deg);
+        background: linear-gradient(135deg, var(--accent-secondary), #f472b6);
+      }
+
+      .fab-options {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .fab-wrapper.open .fab-options {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .fab-item {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        color: var(--text-main);
+        padding: 10px 20px;
+        border-radius: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: var(--shadow-card);
+        font-size: 0.85rem;
+        font-weight: 500;
+        white-space: nowrap;
+        transition: all 0.2s;
+      }
+
+      .fab-item:active {
+        transform: translateX(-6px) scale(0.98);
+        background: var(--accent-primary);
+        color: white;
+      }
+
+      .fab-item i {
+        color: var(--accent-primary);
+        font-size: 1rem;
+      }
+
+      .fab-item:active i {
+        color: white;
+      }
+
+      #viewport {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        cursor: grab;
+        background-image:
+          linear-gradient(var(--grid-color) 1px, transparent 1px),
+          linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+        background-size: 30px 30px;
+        position: relative;
+        touch-action: none;
+      }
+
+      #viewport:active {
+        cursor: grabbing;
+      }
+
+      #world {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: 0 0;
+        width: 0;
+        height: 0;
+        will-change: transform;
+      }
+
+      .connections-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .connection-line {
+        stroke: var(--accent-primary);
+        stroke-width: 2;
+        fill: none;
+        stroke-dasharray: 4, 4;
+        opacity: 0.5;
+      }
+
+      .item {
+        position: absolute;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 0;
+        box-shadow: var(--shadow-card);
+        min-width: 260px;
+        max-width: 320px;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+        user-select: text;
+        z-index: 10;
+        touch-action: pan-x pan-y;
+      }
+
+      @media (max-width: 480px) {
+        .item {
+          min-width: 240px;
+          max-width: 280px;
+        }
+      }
+
+      .item:active {
+        transform: scale(0.99);
+      }
+
+      .item.dragging {
+        opacity: 0.9;
+        transform: scale(1.02);
+        z-index: 1000;
+        box-shadow: var(--shadow-hover);
+      }
+
+      .item.minimized {
+        min-width: 200px;
+        max-width: 240px;
+      }
+
+      .item.minimized .item-body {
+        display: none;
+      }
+
+      .item.pinned {
+        border-color: var(--warning);
+        box-shadow:
+          0 0 0 2px rgba(245, 158, 11, 0.2),
+          var(--shadow-card);
+      }
+
+      .item-header {
+        padding: 12px 16px;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.05),
+          transparent
+        );
+        cursor: grab;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--glass-border);
+        font-weight: 600;
+        font-size: 0.9rem;
+        touch-action: none;
+      }
+
+      .item-header:active {
+        cursor: grabbing;
+      }
+
+      .item-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .item-title i {
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+
+      .item-title span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .item-actions {
+        display: flex;
+        gap: 8px;
+        opacity: 0.6;
+      }
+
+      .item:hover .item-actions {
+        opacity: 1;
+      }
+
+      .action-icon {
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
+
+      .action-icon:active {
+        transform: scale(0.9);
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-primary);
+      }
+
+      .item-body {
+        padding: 16px;
+        flex: 1;
+        min-height: 100px;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--text-main);
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .item-meta {
+        padding: 10px 16px;
+        border-top: 1px solid var(--glass-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.7rem;
+        color: var(--text-light);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .item-tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        padding: 4px 8px;
+        border-radius: 16px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .tag:active {
+        transform: scale(0.95);
+      }
+
+      .tag.personal {
+        background: rgba(99, 102, 241, 0.15);
+        color: var(--accent-primary);
+      }
+      .tag.work {
+        background: rgba(34, 197, 94, 0.15);
+        color: var(--success);
+      }
+      .tag.urgent {
+        background: rgba(239, 68, 68, 0.15);
+        color: var(--danger);
+      }
+      .tag.idea {
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--warning);
+      }
+
+      .todo-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        padding: 8px 12px;
+        background: rgba(0, 0, 0, 0.03);
+        border-radius: 12px;
+        transition: all 0.2s;
+      }
+
+      .todo-item.completed .todo-text {
+        text-decoration: line-through;
+        opacity: 0.6;
+      }
+
+      .todo-check {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--accent-primary);
+        border-radius: 6px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .todo-check:checked {
+        background: var(--accent-primary);
+        position: relative;
+      }
+
+      .todo-check:checked::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+        color: white;
+      }
+
+      .todo-text {
+        flex: 1;
+        border: none;
+        background: transparent;
+        color: var(--text-main);
+        font-family: 'Tajawal', sans-serif;
+        font-size: 0.85rem;
+        padding: 4px;
+      }
+
+      .todo-text:focus {
+        background: rgba(99, 102, 241, 0.1);
+        border-radius: 6px;
+        outline: none;
+      }
+
+      .timer-display {
+        font-size: 2.5rem;
+        font-family: monospace;
+        text-align: center;
+        margin: 16px 0;
+        background: linear-gradient(
+          135deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+        letter-spacing: -1px;
+      }
+
+      @media (max-width: 480px) {
+        .timer-display {
+          font-size: 2rem;
+        }
+      }
+
+      .timer-progress {
+        width: 100%;
+        height: 4px;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 16px;
+      }
+
+      .timer-progress-bar {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        transition: width 1s linear;
+      }
+
+      .timer-controls {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn-sm {
+        padding: 8px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--glass-border);
+        background: rgba(99, 102, 241, 0.1);
+        color: var(--accent-primary);
+        cursor: pointer;
+        font-family: 'Tajawal', sans-serif;
+        font-weight: 600;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+      }
+
+      .btn-sm:active {
+        transform: scale(0.96);
+        background: var(--accent-primary);
+        color: white;
+      }
+
+      .context-menu {
+        position: fixed;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 8px;
+        box-shadow: var(--shadow-hover);
+        z-index: 10000;
+        min-width: 180px;
+        display: none;
+        animation: popIn 0.2s ease;
+      }
+
+      .context-item {
+        padding: 10px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-main);
+        transition: all 0.2s;
+        font-size: 0.85rem;
+      }
+
+      .context-item:active {
+        background: rgba(99, 102, 241, 0.15);
+        transform: scale(0.98);
+      }
+
+      .context-divider {
+        height: 1px;
+        background: var(--glass-border);
+        margin: 6px 0;
+      }
+
+      .toast-container {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10001;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        pointer-events: none;
+        width: calc(100% - 32px);
+        max-width: 400px;
+      }
+
+      .toast {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        padding: 12px 16px;
+        border-radius: 14px;
+        box-shadow: var(--shadow-hover);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: slideDown 0.3s ease;
+        pointer-events: auto;
+        font-size: 0.85rem;
+      }
+
+      .toast.success {
+        border-right: 3px solid var(--success);
+      }
+      .toast.error {
+        border-right: 3px solid var(--danger);
+      }
+      .toast.info {
+        border-right: 3px solid var(--info);
+      }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        z-index: 10002;
+        display: none;
+        place-items: center;
+        padding: 20px;
+      }
+
+      .modal {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 24px;
+        max-width: 400px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        animation: popIn 0.3s ease;
+      }
+
+      .shortcut-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .shortcut-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.03);
+        border-radius: 12px;
+        font-size: 0.85rem;
+      }
+
+      .shortcut-key {
+        background: var(--accent-primary);
+        color: white;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 0.8rem;
+      }
+
+      @keyframes popIn {
+        from {
+          transform: scale(0.95);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @media (hover: none) and (pointer: coarse) {
+        .item-actions {
+          opacity: 0.7;
+        }
+
+        .action-icon {
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ui-layer">
+      <div class="navbar">
+        <div class="brand" onclick="resetView()">
+          <img src="mindflow-logo.svg" alt="MindfulSpace Pro logo" width="28" height="28" />
+
+          <span>MindfulSpace Pro</span>
+        </div>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="بحث..." />
+          <i class="fa-solid fa-search"></i>
+        </div>
+        <div class="tools">
+          <button class="tool-btn" id="undoBtn" title="تراجع">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+          <button class="tool-btn" id="redoBtn" title="إعادة">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button class="tool-btn" id="connectBtn" title="وضع الربط">
+            <i class="fa-solid fa-link"></i>
+          </button>
+          <button class="theme-toggle" id="themeToggle" title="تبديل الوضع">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <button class="tool-btn" id="exportBtn" title="تصدير">
+            <i class="fa-solid fa-download"></i>
+          </button>
+          <button class="tool-btn" id="clearBtn" title="مسح الكل">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="fab-wrapper" id="fabWrapper">
+        <button class="fab-main" id="fabBtn">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+        <div class="fab-options">
+          <div class="fab-item" data-type="note">
+            <i class="fa-regular fa-note-sticky"></i><span>ملاحظة</span>
+          </div>
+          <div class="fab-item" data-type="todo">
+            <i class="fa-solid fa-list-check"></i><span>مهام</span>
+          </div>
+          <div class="fab-item" data-type="pomodoro">
+            <i class="fa-solid fa-clock"></i><span>بومودورو</span>
+          </div>
+          <div class="fab-item" data-type="stopwatch">
+            <i class="fa-solid fa-stopwatch"></i><span>ساعة</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="tools">
-      <div class="tool-btn" id="resetViewBtn" title="إعادة ضبط العرض"><i class="fa-solid fa-compress"></i></div>
-      <div class="tool-btn" id="exportBtn" title="تصدير البيانات"><i class="fa-solid fa-download"></i></div>
-      <div class="tool-btn" id="clearBtn" title="مسح الكل"><i class="fa-solid fa-trash"></i></div>
+
+    <div id="viewport">
+      <svg class="connections-layer" id="connectionsLayer"></svg>
+      <div id="world"></div>
     </div>
-  </div>
 
-  <div class="fab-wrapper" id="fabWrapper">
-    <button class="fab-main" id="fabBtn"><i class="fa-solid fa-plus"></i></button>
-    <div class="fab-options">
-      <div class="fab-item" id="createNoteBtn"><i class="fa-regular fa-note-sticky"></i> ملاحظة جديدة</div>
-      <div class="fab-item" id="createTodoBtn"><i class="fa-solid fa-list-check"></i> قائمة مهام</div>
-      <div class="fab-item" id="createPomodoroBtn"><i class="fa-solid fa-clock"></i> بومودورو</div>
-      <div class="fab-item" id="createStopwatchBtn"><i class="fa-solid fa-stopwatch"></i> ساعة إيقاف</div>
+    <div class="context-menu" id="contextMenu">
+      <div class="context-item" data-action="pin">
+        <i class="fa-solid fa-thumbtack"></i><span>تثبيت</span>
+      </div>
+      <div class="context-item" data-action="color">
+        <i class="fa-solid fa-palette"></i><span>لون</span>
+      </div>
+      <div class="context-item" data-action="duplicate">
+        <i class="fa-solid fa-copy"></i><span>نسخ</span>
+      </div>
+      <div class="context-divider"></div>
+      <div
+        class="context-item"
+        data-action="delete"
+        style="color: var(--danger)"
+      >
+        <i class="fa-solid fa-trash"></i><span>حذف</span>
+      </div>
     </div>
-  </div>
-</div>
 
-<div id="viewport">
-  <div id="world"></div>
-</div>
+    <div class="toast-container" id="toastContainer"></div>
 
-<script>
-// --- State Management ---
-const state = {
-  items: JSON.parse(localStorage.getItem('mindful_items') || '[]'),
-  view: JSON.parse(localStorage.getItem('mindful_view') || '{"x":0,"y":0,"scale":1}'),
-  nextId: (() => {
-    const ids = JSON.parse(localStorage.getItem('mindful_items') || '[]').map(i => i.id);
-    return ids.length ? Math.max(...ids) + 1 : Date.now();
-  })()
-};
+    <div class="modal-overlay" id="shortcutsModal">
+      <div class="modal">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+          "
+        >
+          <h3 style="margin: 0; font-size: 1.2rem">⌨️ الاختصارات</h3>
+          <button
+            onclick="closeModal()"
+            style="
+              background: none;
+              border: none;
+              color: var(--text-muted);
+              font-size: 1.2rem;
+              cursor: pointer;
+            "
+          >
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <div class="shortcut-list">
+          <div class="shortcut-item">
+            <span>عنصر جديد</span><span class="shortcut-key">N</span>
+          </div>
+          <div class="shortcut-item">
+            <span>تراجع</span><span class="shortcut-key">Ctrl+Z</span>
+          </div>
+          <div class="shortcut-item">
+            <span>إعادة</span><span class="shortcut-key">Ctrl+Y</span>
+          </div>
+          <div class="shortcut-item">
+            <span>حذف المحدد</span><span class="shortcut-key">Delete</span>
+          </div>
+          <div class="shortcut-item">
+            <span>وضع ليلي</span><span class="shortcut-key">Ctrl+D</span>
+          </div>
+          <div class="shortcut-item">
+            <span>إعادة العرض</span><span class="shortcut-key">Home</span>
+          </div>
+          <div class="shortcut-item">
+            <span>تصدير</span><span class="shortcut-key">Ctrl+S</span>
+          </div>
+        </div>
+        <button
+          class="btn-sm"
+          onclick="closeModal()"
+          style="margin-top: 20px; width: 100%; justify-content: center"
+        >
+          إغلاق
+        </button>
+      </div>
+    </div>
 
-// --- DOM Elements ---
-const world = document.getElementById('world');
-const viewport = document.getElementById('viewport');
+    <script>
+      // ==================== STATE MANAGEMENT ====================
+      const appState = {
+        items: [],
+        view: { x: 0, y: 0, scale: 1 },
+        nextId: Date.now(),
+        selectedItem: null,
+        connectMode: false,
+        connectingFrom: null,
+        theme: localStorage.getItem('mindful_theme') || 'light',
+        searchQuery: '',
+      };
 
-// --- Init ---
-function init() {
-  applyView();
-  state.items.forEach(item => renderItem(item));
+      const StateManager = {
+        history: [],
+        historyIndex: -1,
+        maxHistory: 30,
 
-  setInterval(updateTimers, 1000);
-  setInterval(saveState, 2000);
+        saveState() {
+          const state = {
+            items: JSON.parse(JSON.stringify(appState.items)),
+            view: { ...appState.view },
+            timestamp: Date.now(),
+          };
 
-  setupEventListeners();
-}
+          if (this.historyIndex < this.history.length - 1) {
+            this.history = this.history.slice(0, this.historyIndex + 1);
+          }
 
-function setupEventListeners() {
-  document.getElementById('resetViewBtn').addEventListener('click', resetView);
-  document.getElementById('exportBtn').addEventListener('click', exportData);
-  document.getElementById('clearBtn').addEventListener('click', clearCanvas);
-  document.getElementById('createNoteBtn').addEventListener('click', () => createItem('note'));
-  document.getElementById('createTodoBtn').addEventListener('click', () => createItem('todo'));
-  document.getElementById('createPomodoroBtn').addEventListener('click', () => createItem('pomodoro'));
-  document.getElementById('createStopwatchBtn').addEventListener('click', () => createItem('stopwatch'));
+          this.history.push(state);
+          if (this.history.length > this.maxHistory) {
+            this.history.shift();
+          } else {
+            this.historyIndex++;
+          }
 
-  const fabBtn = document.getElementById('fabBtn');
-  const fabWrapper = document.getElementById('fabWrapper');
-  fabBtn.addEventListener('click', () => {
-    fabWrapper.classList.toggle('open');
-    fabBtn.classList.toggle('active');
-  });
-}
+          localStorage.setItem('mindful_items', JSON.stringify(appState.items));
+          localStorage.setItem('mindful_view', JSON.stringify(appState.view));
+        },
 
-// --- Canvas Logic (Pan & Zoom) ---
-let isPanning = false;
-let startX, startY, initialViewX, initialViewY;
+        undo() {
+          if (this.historyIndex > 0) {
+            this.historyIndex--;
+            this.restoreState(this.history[this.historyIndex]);
+            showToast('تم التراجع', 'info');
+          }
+        },
 
-viewport.addEventListener('mousedown', (e) => {
-  if(e.target === viewport || e.target === world) {
-    isPanning = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    initialViewX = state.view.x;
-    initialViewY = state.view.y;
-    viewport.style.cursor = 'grabbing';
-  }
-});
+        redo() {
+          if (this.historyIndex < this.history.length - 1) {
+            this.historyIndex++;
+            this.restoreState(this.history[this.historyIndex]);
+            showToast('تمت الإعادة', 'info');
+          }
+        },
 
-window.addEventListener('mousemove', (e) => {
-  if (!isPanning) return;
-  const dx = (e.clientX - startX);
-  const dy = (e.clientY - startY);
-  state.view.x = initialViewX + dx;
-  state.view.y = initialViewY + dy;
-  applyView();
-});
+        restoreState(state) {
+          appState.items = JSON.parse(JSON.stringify(state.items));
+          appState.view = { ...state.view };
+          renderAllItems();
+          applyView();
+        },
+      };
 
-window.addEventListener('mouseup', () => {
-  isPanning = false;
-  viewport.style.cursor = 'grab';
-});
+      // ==================== DOM ELEMENTS ====================
+      const world = document.getElementById('world');
+      const viewport = document.getElementById('viewport');
+      const connectionsLayer = document.getElementById('connectionsLayer');
 
-viewport.addEventListener('wheel', (e) => {
-  e.preventDefault();
-  const zoomSensitivity = 0.005;
-  const delta = -e.deltaY * zoomSensitivity;
-  const newScale = Math.min(Math.max(0.3, state.view.scale + delta), 2.5);
-  state.view.scale = newScale;
-  applyView();
-}, { passive: false });
+      // ==================== UTILITY FUNCTIONS ====================
+      function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
 
-function applyView() {
-  world.style.transform = `translate(${state.view.x}px, ${state.view.y}px) scale(${state.view.scale})`;
-  localStorage.setItem('mindful_view', JSON.stringify(state.view));
-}
+        const icons = {
+          success: 'fa-check-circle',
+          error: 'fa-exclamation-circle',
+          info: 'fa-info-circle',
+        };
 
-function resetView() {
-  state.view = { x: 0, y: 0, scale: 1 };
-  applyView();
-}
+        toast.innerHTML = `<i class="fa-solid ${icons[type]}"></i><span>${message}</span>`;
+        container.appendChild(toast);
 
-// --- Item Factory ---
-function createItem(type) {
-  const rect = viewport.getBoundingClientRect();
-  const centerX = (-state.view.x + rect.width/2) / state.view.scale;
-  const centerY = (-state.view.y + rect.height/2) / state.view.scale;
-  const randomOffsetX = (Math.random() - 0.5) * 200;
-  const randomOffsetY = (Math.random() - 0.5) * 200;
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(-10px)';
+          setTimeout(() => toast.remove(), 300);
+        }, 2500);
+      }
 
-  const item = {
-    id: state.nextId++,
-    type: type,
-    x: centerX + randomOffsetX,
-    y: centerY + randomOffsetY,
-    title: type === 'note' ? '📝 ملاحظة' : (type === 'todo' ? '✓ قائمة مهام' : (type === 'pomodoro' ? '🍅 بومودورو' : '⏱️ ساعة إيقاف')),
-    data: type === 'todo' ? [] : (type === 'pomodoro' ? { time: 25 * 60, active: false } : { time: 0, active: false })
-  };
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
 
-  if (type === 'note') item.content = '';
+      function formatStopwatch(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+      }
 
-  state.items.push(item);
-  renderItem(item);
-  saveState();
+      function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString('ar-EG', {
+          hour: '2-digit',
+          minute: '2-digit',
+          day: 'numeric',
+          month: 'short',
+        });
+      }
 
-  const fabWrapper = document.getElementById('fabWrapper');
-  fabWrapper.classList.remove('open');
-  document.getElementById('fabBtn').classList.remove('active');
-}
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
 
-// --- Rendering ---
-function renderItem(itemData) {
-  const existingEl = document.getElementById(`item-${itemData.id}`);
-  if (existingEl) existingEl.remove();
+      function applyView() {
+        const transform = `translate(${appState.view.x}px, ${appState.view.y}px) scale(${appState.view.scale})`;
+        world.style.transform = transform;
+        connectionsLayer.style.transform = transform;
+      }
 
-  const el = document.createElement('div');
-  el.className = 'item';
-  el.id = `item-${itemData.id}`;
-  el.style.transform = `translate(${itemData.x}px, ${itemData.y}px)`;
+      function resetView() {
+        appState.view = { x: 0, y: 0, scale: 1 };
+        applyView();
+        showToast('تم إعادة ضبط العرض', 'info');
+      }
 
-  const header = document.createElement('div');
-  header.className = 'item-header';
-  header.innerHTML = `
-    <span>${itemData.title}</span>
-    <div class="item-actions">
-      <i class="fa-regular fa-trash-can action-icon" data-action="delete"></i>
+      // ==================== ITEM MANAGEMENT ====================
+      function createItem(type) {
+        const rect = viewport.getBoundingClientRect();
+        const centerX =
+          (-appState.view.x + rect.width / 2) / appState.view.scale;
+        const centerY =
+          (-appState.view.y + rect.height / 2) / appState.view.scale;
+
+        const titles = {
+          note: '📝 ملاحظة',
+          todo: '✓ مهام',
+          pomodoro: '🍅 بومودورو',
+          stopwatch: '⏱️ ساعة',
+        };
+
+        const item = {
+          id: appState.nextId++,
+          type: type,
+          x: centerX + (Math.random() - 0.5) * 80,
+          y: centerY + (Math.random() - 0.5) * 80,
+          title: titles[type],
+          content: type === 'note' ? '' : null,
+          data:
+            type === 'todo'
+              ? []
+              : type === 'pomodoro'
+                ? { time: 1500, active: false, originalTime: 1500, sessions: 0 }
+                : { time: 0, active: false },
+          tags: [],
+          color: 'default',
+          pinned: false,
+          minimized: false,
+          connections: [],
+          createdAt: Date.now(),
+        };
+
+        appState.items.push(item);
+        renderItem(item);
+        StateManager.saveState();
+        showToast('تم إنشاء العنصر', 'success');
+
+        // Close FAB
+        document.getElementById('fabWrapper').classList.remove('open');
+        document.getElementById('fabBtn').classList.remove('active');
+      }
+
+      function renderItem(item) {
+        const existing = document.getElementById(`item-${item.id}`);
+        if (existing) existing.remove();
+
+        const el = document.createElement('div');
+        el.className = `item ${item.pinned ? 'pinned' : ''} ${item.minimized ? 'minimized' : ''}`;
+        if (item.color !== 'default') {
+          el.style.borderTop = `3px solid var(--${item.color})`;
+        }
+        el.id = `item-${item.id}`;
+        el.style.transform = `translate(${item.x}px, ${item.y}px)`;
+
+        const icons = {
+          note: 'fa-note-sticky',
+          todo: 'fa-list-check',
+          pomodoro: 'fa-clock',
+          stopwatch: 'fa-stopwatch',
+        };
+
+        el.innerHTML = `
+    <div class="item-header">
+      <div class="item-title">
+        <i class="fa-regular ${icons[item.type]}"></i>
+        <span>${escapeHtml(item.title)}</span>
+        ${item.pinned ? '<i class="fa-solid fa-thumbtack" style="color: var(--warning); font-size: 0.75rem;"></i>' : ''}
+      </div>
+      <div class="item-actions">
+        <i class="fa-solid fa-minus action-icon" onclick="toggleMinimize(${item.id})" title="تصغير"></i>
+        <i class="fa-solid fa-thumbtack action-icon" onclick="togglePin(${item.id})" title="تثبيت"></i>
+        <i class="fa-solid fa-palette action-icon" onclick="showColorPicker(${item.id})" title="لون"></i>
+        <i class="fa-regular fa-trash-can action-icon" onclick="deleteItem(${item.id})" title="حذف"></i>
+      </div>
+    </div>
+    <div class="item-body" id="body-${item.id}"></div>
+    <div class="item-meta">
+      <div class="item-tags">
+        ${(item.tags || []).map((tag) => `<span class="tag ${tag}" onclick="addTag(${item.id})">${getTagLabel(tag)}</span>`).join('')}
+        <i class="fa-solid fa-plus" style="cursor: pointer; opacity: 0.5; font-size: 0.7rem;" onclick="addTag(${item.id})"></i>
+      </div>
+      <span>${formatDate(item.createdAt)}</span>
     </div>
   `;
 
-  const body = document.createElement('div');
-  body.className = 'item-body';
+        world.appendChild(el);
 
-  if (itemData.type === 'note') {
-    body.contentEditable = "true";
-    body.innerHTML = itemData.content || '';
-    body.addEventListener('input', () => {
-      itemData.content = body.innerHTML;
-      saveState();
-    });
-  }
-  else if (itemData.type === 'todo') {
-    renderTodoList(body, itemData);
-  }
-  else if (itemData.type === 'pomodoro') {
-    body.innerHTML = `
-      <div class="timer-display" data-timer="${itemData.id}">${formatTime(itemData.data.time)}</div>
-      <div class="timer-controls">
-        <button class="btn-sm timer-play" data-id="${itemData.id}" data-type="pomodoro"><i class="fa-solid fa-play"></i> بدء</button>
-        <button class="btn-sm timer-reset" data-id="${itemData.id}" data-type="pomodoro"><i class="fa-solid fa-rotate-right"></i> إعادة</button>
-      </div>
-      <div style="text-align:center; margin-top:12px; font-size:0.8rem; opacity:0.7;">🍅 25 دقيقة تركيز</div>
-    `;
-    setupTimerEvents(body, itemData);
-  }
-  else if (itemData.type === 'stopwatch') {
-    body.innerHTML = `
-      <div class="timer-display" data-timer="${itemData.id}" style="color:var(--accent-secondary)">${formatStopwatch(itemData.data.time)}</div>
-      <div class="timer-controls">
-        <button class="btn-sm timer-play" data-id="${itemData.id}" data-type="stopwatch"><i class="fa-solid fa-play"></i> بدء</button>
-        <button class="btn-sm timer-reset" data-id="${itemData.id}" data-type="stopwatch"><i class="fa-solid fa-rotate-right"></i> إعادة</button>
-      </div>
-    `;
-    setupTimerEvents(body, itemData);
-  }
-
-  el.appendChild(header);
-  el.appendChild(body);
-  world.appendChild(el);
-
-  const deleteIcon = header.querySelector('[data-action="delete"]');
-  deleteIcon.addEventListener('click', (e) => {
-    e.stopPropagation();
-    deleteItem(itemData.id);
-  });
-
-  setupDrag(el, itemData);
-
-  el.addEventListener('mousedown', () => {
-    document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
-    el.classList.add('active');
-  });
-}
-
-function renderTodoList(container, itemData) {
-  container.innerHTML = '';
-
-  if (itemData.data.length === 0) {
-    const emptyMsg = document.createElement('div');
-    emptyMsg.style.textAlign = 'center';
-    emptyMsg.style.color = '#94a3b8';
-    emptyMsg.style.padding = '20px';
-    emptyMsg.innerHTML = '<i class="fa-regular fa-clipboard"></i><br>لا توجد مهام بعد';
-    container.appendChild(emptyMsg);
-  }
-
-  itemData.data.forEach((todo, idx) => {
-    const div = document.createElement('div');
-    div.className = `todo-item ${todo.done ? 'completed' : ''}`;
-    div.innerHTML = `
-      <input type="checkbox" class="todo-check" ${todo.done ? 'checked' : ''}>
-      <span style="flex:1">${escapeHtml(todo.text)}</span>
-      <i class="fa-regular fa-circle-xmark" style="cursor:pointer; opacity:0.5; font-size:1rem; transition:0.2s" data-idx="${idx}"></i>
-    `;
-
-    const check = div.querySelector('input');
-    check.addEventListener('change', (e) => {
-      todo.done = e.target.checked;
-      div.classList.toggle('completed');
-      saveState();
-    });
-
-    const deleteTodoBtn = div.querySelector('.fa-circle-xmark');
-    deleteTodoBtn.addEventListener('click', () => {
-      itemData.data.splice(idx, 1);
-      renderTodoList(container, itemData);
-      saveState();
-    });
-
-    container.appendChild(div);
-  });
-
-  const addBtn = document.createElement('button');
-  addBtn.className = 'btn-sm';
-  addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> إضافة مهمة جديدة';
-  addBtn.style.width = '100%';
-  addBtn.style.marginTop = '12px';
-  addBtn.addEventListener('click', () => {
-    const text = prompt('✏️ أدخل المهمة:');
-    if(text && text.trim()) {
-      itemData.data.push({ text: text.trim(), done: false });
-      renderTodoList(container, itemData);
-      saveState();
-    }
-  });
-  container.appendChild(addBtn);
-}
-
-function setupTimerEvents(container, itemData) {
-  const playBtn = container.querySelector('.timer-play');
-  const resetBtn = container.querySelector('.timer-reset');
-
-  if (playBtn) {
-    playBtn.addEventListener('click', () => toggleTimer(itemData.id, playBtn));
-  }
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => resetTimer(itemData.id, itemData.type));
-  }
-}
-
-function formatTime(seconds) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
-
-function formatStopwatch(seconds) {
-  const hrs = Math.floor(seconds / 3600);
-  const mins = Math.floor((seconds % 3600) / 60);
-  const secs = seconds % 60;
-  if (hrs > 0) {
-    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }
-  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-}
-
-// --- Drag & Drop Logic ---
-function setupDrag(el, itemData) {
-  const header = el.querySelector('.item-header');
-  let isDragging = false, dragStartX, dragStartY, initX, initY;
-
-  header.addEventListener('mousedown', (e) => {
-    if (e.target.closest('.item-actions')) return;
-    isDragging = true;
-    dragStartX = e.clientX;
-    dragStartY = e.clientY;
-    initX = itemData.x;
-    initY = itemData.y;
-    el.style.transition = 'none';
-    e.stopPropagation();
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const dx = (e.clientX - dragStartX) / state.view.scale;
-    const dy = (e.clientY - dragStartY) / state.view.scale;
-    itemData.x = initX + dx;
-    itemData.y = initY + dy;
-    el.style.transform = `translate(${itemData.x}px, ${itemData.y}px)`;
-  });
-
-  window.addEventListener('mouseup', () => {
-    if(isDragging) {
-      isDragging = false;
-      el.style.transition = '';
-      saveState();
-    }
-  });
-}
-
-// --- Timer Logic ---
-function updateTimers() {
-  let needsSave = false;
-  state.items.forEach(item => {
-    if (item.type === 'pomodoro' || item.type === 'stopwatch') {
-      if (item.data.active) {
-        if (item.type === 'stopwatch') {
-          item.data.time++;
-        } else if (item.type === 'pomodoro' && item.data.time > 0) {
-          item.data.time--;
+        // Render body content
+        const bodyDiv = document.getElementById(`body-${item.id}`);
+        if (item.type === 'note') {
+          renderNoteBody(bodyDiv, item);
+        } else if (item.type === 'todo') {
+          renderTodoBody(bodyDiv, item);
+        } else if (item.type === 'pomodoro' || item.type === 'stopwatch') {
+          renderTimerBody(bodyDiv, item);
         }
 
-        updateTimerDisplay(item.id, item.data.time, item.type);
-        needsSave = true;
+        // Setup drag
+        setupDrag(el, item);
 
-        if (item.type === 'pomodoro' && item.data.time === 0 && item.data.active) {
+        // Selection
+        el.addEventListener('mousedown', (e) => {
+          if (
+            !e.target.closest('.item-actions') &&
+            !e.target.closest('.item-body')
+          ) {
+            document
+              .querySelectorAll('.item')
+              .forEach((i) => i.classList.remove('active'));
+            el.classList.add('active');
+            appState.selectedItem = item.id;
+          }
+        });
+
+        // Context menu
+        el.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          showContextMenu(e, item.id);
+        });
+      }
+
+      function renderNoteBody(body, item) {
+        body.innerHTML = `<div contenteditable="true" class="note-content" style="min-height: 120px; outline: none;">${item.content || ''}</div>`;
+        const contentDiv = body.querySelector('.note-content');
+        contentDiv.addEventListener('input', () => {
+          item.content = contentDiv.innerHTML;
+          StateManager.saveState();
+        });
+      }
+
+      function renderTodoBody(body, item) {
+        if (!item.data) item.data = [];
+
+        const renderTodos = () => {
+          body.innerHTML = '';
+
+          if (item.data.length === 0) {
+            body.innerHTML =
+              '<div style="text-align: center; color: var(--text-light); padding: 20px; font-size: 0.85rem;">+ أضف مهمة جديدة</div>';
+          }
+
+          item.data.forEach((todo, idx) => {
+            const div = document.createElement('div');
+            div.className = `todo-item ${todo.done ? 'completed' : ''}`;
+            div.innerHTML = `
+        <input type="checkbox" class="todo-check" ${todo.done ? 'checked' : ''}>
+        <input type="text" class="todo-text" value="${escapeHtml(todo.text)}" placeholder="مهمة...">
+        <i class="fa-solid fa-times" style="cursor: pointer; opacity: 0.4; transition: 0.2s;"></i>
+      `;
+
+            const checkbox = div.querySelector('.todo-check');
+            checkbox.addEventListener('change', (e) => {
+              todo.done = e.target.checked;
+              div.classList.toggle('completed');
+              StateManager.saveState();
+            });
+
+            const textInput = div.querySelector('.todo-text');
+            textInput.addEventListener('change', (e) => {
+              todo.text = e.target.value;
+              StateManager.saveState();
+            });
+
+            const deleteBtn = div.querySelector('.fa-times');
+            deleteBtn.addEventListener('click', () => {
+              item.data.splice(idx, 1);
+              renderTodos();
+              StateManager.saveState();
+            });
+
+            body.appendChild(div);
+          });
+
+          const addBtn = document.createElement('button');
+          addBtn.className = 'btn-sm';
+          addBtn.style.cssText =
+            'width: 100%; margin-top: 12px; justify-content: center;';
+          addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> إضافة مهمة';
+          addBtn.addEventListener('click', () => {
+            item.data.push({ text: '', done: false });
+            renderTodos();
+            // Focus new input
+            setTimeout(() => {
+              const inputs = body.querySelectorAll('.todo-text');
+              if (inputs.length) inputs[inputs.length - 1].focus();
+            }, 50);
+          });
+          body.appendChild(addBtn);
+        };
+
+        renderTodos();
+      }
+
+      function renderTimerBody(body, item) {
+        const isPomodoro = item.type === 'pomodoro';
+
+        const updateDisplay = () => {
+          const display = body.querySelector('.timer-display');
+          const bar = body.querySelector('.timer-progress-bar');
+
+          if (display) {
+            display.textContent = isPomodoro
+              ? formatTime(item.data.time)
+              : formatStopwatch(item.data.time);
+          }
+          if (bar && isPomodoro) {
+            const progress =
+              ((item.data.originalTime - item.data.time) /
+                item.data.originalTime) *
+              100;
+            bar.style.width = `${progress}%`;
+          }
+        };
+
+        body.innerHTML = `
+    ${isPomodoro ? `<div class="timer-progress"><div class="timer-progress-bar" style="width: 0%"></div></div>` : ''}
+    <div class="timer-display">${isPomodoro ? formatTime(item.data.time) : formatStopwatch(item.data.time)}</div>
+    <div class="timer-controls">
+      <button class="btn-sm timer-toggle">
+        <i class="fa-solid ${item.data.active ? 'fa-pause' : 'fa-play'}"></i>
+        ${item.data.active ? 'إيقاف' : 'بدء'}
+      </button>
+      <button class="btn-sm timer-reset">
+        <i class="fa-solid fa-rotate-right"></i> إعادة
+      </button>
+      ${isPomodoro ? `<button class="btn-sm adjust-time" data-min="5">+5</button>` : ''}
+    </div>
+    ${
+      isPomodoro
+        ? `<div style="text-align: center; margin-top: 12px; font-size: 0.75rem; color: var(--text-light);">
+      <i class="fa-solid fa-fire" style="color: var(--accent-secondary);"></i>
+      ${item.data.sessions || 0} جلسات
+    </div>`
+        : ''
+    }
+  `;
+
+        const toggleBtn = body.querySelector('.timer-toggle');
+        toggleBtn.addEventListener('click', () => {
+          item.data.active = !item.data.active;
+          toggleBtn.innerHTML = `<i class="fa-solid ${item.data.active ? 'fa-pause' : 'fa-play'}"></i> ${item.data.active ? 'إيقاف' : 'بدء'}`;
+          StateManager.saveState();
+        });
+
+        const resetBtn = body.querySelector('.timer-reset');
+        resetBtn.addEventListener('click', () => {
           item.data.active = false;
-          const playBtn = document.querySelector(`#item-${item.id} .timer-play`);
-          if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
-          alert("🎉 مبروك! انتهت جلسة التركيز! حان وقت الاستراحة 🍵");
+          item.data.time = isPomodoro ? item.data.originalTime : 0;
+          updateDisplay();
+          if (toggleBtn)
+            toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
+          StateManager.saveState();
+        });
+
+        const adjustBtn = body.querySelector('.adjust-time');
+        if (adjustBtn) {
+          adjustBtn.addEventListener('click', () => {
+            const mins = parseInt(adjustBtn.dataset.min);
+            item.data.originalTime += mins * 60;
+            item.data.time = item.data.originalTime;
+            item.data.active = false;
+            updateDisplay();
+            if (toggleBtn)
+              toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
+            StateManager.saveState();
+          });
+        }
+
+        updateDisplay();
+      }
+
+      function setupDrag(el, item) {
+        const header = el.querySelector('.item-header');
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+
+        const startDrag = (e) => {
+          if (e.target.closest('.item-actions')) return;
+          if (appState.connectMode) {
+            startConnection(item.id);
+            return;
+          }
+
+          isDragging = true;
+          const clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+          const clientY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+          startX = clientX;
+          startY = clientY;
+          initialX = item.x;
+          initialY = item.y;
+          el.classList.add('dragging');
+
+          if (e.preventDefault) e.preventDefault();
+        };
+
+        const dragMove = (e) => {
+          if (!isDragging) return;
+          const clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+          const clientY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+
+          item.x = initialX + (clientX - startX) / appState.view.scale;
+          item.y = initialY + (clientY - startY) / appState.view.scale;
+          el.style.transform = `translate(${item.x}px, ${item.y}px)`;
+          renderConnections();
+        };
+
+        const endDrag = () => {
+          if (isDragging) {
+            isDragging = false;
+            el.classList.remove('dragging');
+            StateManager.saveState();
+          }
+        };
+
+        header.addEventListener('mousedown', startDrag);
+        header.addEventListener('touchstart', startDrag, { passive: false });
+        window.addEventListener('mousemove', dragMove);
+        window.addEventListener('touchmove', dragMove, { passive: false });
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchend', endDrag);
+      }
+
+      function renderAllItems() {
+        world.innerHTML = '';
+        appState.items.forEach((item) => renderItem(item));
+        renderConnections();
+      }
+
+      function renderConnections() {
+        connectionsLayer.innerHTML = '';
+        appState.items.forEach((item) => {
+          if (item.connections && item.connections.length) {
+            item.connections.forEach((targetId) => {
+              const target = appState.items.find((i) => i.id === targetId);
+              if (target) {
+                const line = document.createElementNS(
+                  'http://www.w3.org/2000/svg',
+                  'line',
+                );
+                line.setAttribute('x1', item.x + 130);
+                line.setAttribute('y1', item.y + 40);
+                line.setAttribute('x2', target.x + 130);
+                line.setAttribute('y2', target.y + 40);
+                line.setAttribute('class', 'connection-line');
+                connectionsLayer.appendChild(line);
+              }
+            });
+          }
+        });
+      }
+
+      // ==================== ITEM ACTIONS ====================
+      function togglePin(id) {
+        const item = appState.items.find((i) => i.id === id);
+        if (item) {
+          item.pinned = !item.pinned;
+          renderItem(item);
+          StateManager.saveState();
+          showToast(
+            item.pinned ? 'تم تثبيت العنصر' : 'تم إلغاء التثبيت',
+            'info',
+          );
         }
       }
-    }
-  });
-  if (needsSave) saveState();
-}
 
-function updateTimerDisplay(id, seconds, type) {
-  const display = document.querySelector(`#item-${id} [data-timer="${id}"]`);
-  if (!display) return;
-  display.innerText = type === 'pomodoro' ? formatTime(seconds) : formatStopwatch(seconds);
-}
+      function toggleMinimize(id) {
+        const item = appState.items.find((i) => i.id === id);
+        if (item) {
+          item.minimized = !item.minimized;
+          renderItem(item);
+        }
+      }
 
-function toggleTimer(id, btnElement) {
-  const item = state.items.find(i => i.id === id);
-  if (!item) return;
-  item.data.active = !item.data.active;
-  if (item.data.active) {
-    btnElement.innerHTML = '<i class="fa-solid fa-pause"></i> إيقاف';
-  } else {
-    btnElement.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
-  }
-  saveState();
-}
+      function showColorPicker(id) {
+        const colors = ['default', 'primary', 'success', 'warning', 'danger'];
+        const item = appState.items.find((i) => i.id === id);
+        if (item) {
+          const currentIdx = colors.indexOf(item.color);
+          item.color = colors[(currentIdx + 1) % colors.length];
+          renderItem(item);
+          StateManager.saveState();
+        }
+      }
 
-function resetTimer(id, type) {
-  const item = state.items.find(i => i.id === id);
-  if (!item) return;
-  item.data.active = false;
-  item.data.time = type === 'pomodoro' ? 25 * 60 : 0;
-  updateTimerDisplay(id, item.data.time, type);
-  const playBtn = document.querySelector(`#item-${id} .timer-play`);
-  if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
-  saveState();
-}
+      function addTag(id) {
+        const tags = ['personal', 'work', 'urgent', 'idea'];
+        const item = appState.items.find((i) => i.id === id);
+        if (!item) return;
 
-// --- Utilities ---
-function deleteItem(id) {
-  if(confirm('🗑️ هل أنت متأكد من حذف هذا العنصر؟')) {
-    state.items = state.items.filter(i => i.id !== id);
-    const element = document.getElementById(`item-${id}`);
-    if (element) element.remove();
-    saveState();
-  }
-}
+        if (!item.tags) item.tags = [];
+        const available = tags.filter((t) => !item.tags.includes(t));
 
-function clearCanvas() {
-  if(confirm('⚠️ هل أنت متأكد من مسح كل شيء؟ هذا الإجراء لا يمكن التراجع عنه! ⚠️')) {
-    state.items = [];
-    world.innerHTML = '';
-    saveState();
-  }
-}
+        if (available.length) {
+          item.tags.push(available[0]);
+          renderItem(item);
+          StateManager.saveState();
+        }
+      }
 
-function saveState() {
-  localStorage.setItem('mindful_items', JSON.stringify(state.items));
-}
+      function getTagLabel(tag) {
+        const labels = {
+          personal: 'شخصي',
+          work: 'عمل',
+          urgent: 'عاجل',
+          idea: 'فكرة',
+        };
+        return labels[tag] || tag;
+      }
 
-function exportData() {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.items, null, 2));
-  const downloadAnchorNode = document.createElement('a');
-  downloadAnchorNode.setAttribute("href", dataStr);
-  downloadAnchorNode.setAttribute("download", `mindful_backup_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`);
-  document.body.appendChild(downloadAnchorNode);
-  downloadAnchorNode.click();
-  downloadAnchorNode.remove();
-}
+      function deleteItem(id) {
+        if (!confirm('هل أنت متأكد من حذف هذا العنصر؟')) return;
 
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
+        appState.items = appState.items.filter((i) => i.id !== id);
+        document.getElementById(`item-${id}`)?.remove();
 
-// Start
-init();
-</script>
-</body>
+        // Remove connections to this item
+        appState.items.forEach((item) => {
+          item.connections = (item.connections || []).filter(
+            (cid) => cid !== id,
+          );
+        });
+
+        StateManager.saveState();
+        renderConnections();
+        showToast('تم حذف العنصر', 'success');
+      }
+
+      function duplicateItem(id) {
+        const item = appState.items.find((i) => i.id === id);
+        if (!item) return;
+
+        const newItem = JSON.parse(JSON.stringify(item));
+        newItem.id = appState.nextId++;
+        newItem.x = item.x + 40;
+        newItem.y = item.y + 40;
+        newItem.pinned = false;
+        newItem.connections = [];
+        newItem.createdAt = Date.now();
+
+        appState.items.push(newItem);
+        renderItem(newItem);
+        StateManager.saveState();
+        showToast('تم نسخ العنصر', 'success');
+      }
+
+      // ==================== CONNECTIONS ====================
+      function toggleConnectMode() {
+        appState.connectMode = !appState.connectMode;
+        const btn = document.getElementById('connectBtn');
+
+        if (appState.connectMode) {
+          btn.classList.add('active');
+          showToast('وضع الربط مفعل: انقر على عنصرين لربطهما', 'info');
+        } else {
+          btn.classList.remove('active');
+          appState.connectingFrom = null;
+        }
+      }
+
+      function startConnection(fromId) {
+        if (!appState.connectMode) {
+          toggleConnectMode();
+        }
+
+        if (!appState.connectingFrom) {
+          appState.connectingFrom = fromId;
+          document.getElementById(`item-${fromId}`).style.opacity = '0.7';
+          showToast('اختر العنصر الثاني للربط', 'info');
+        } else {
+          if (appState.connectingFrom !== fromId) {
+            const fromItem = appState.items.find(
+              (i) => i.id === appState.connectingFrom,
+            );
+            if (fromItem && !(fromItem.connections || []).includes(fromId)) {
+              if (!fromItem.connections) fromItem.connections = [];
+              fromItem.connections.push(fromId);
+              StateManager.saveState();
+              renderConnections();
+              showToast('تم ربط العنصرين بنجاح', 'success');
+            }
+          }
+          document.getElementById(
+            `item-${appState.connectingFrom}`,
+          ).style.opacity = '1';
+          toggleConnectMode();
+          appState.connectingFrom = null;
+        }
+      }
+
+      // ==================== CONTEXT MENU ====================
+      function showContextMenu(e, itemId) {
+        const menu = document.getElementById('contextMenu');
+        const item = appState.items.find((i) => i.id === itemId);
+
+        menu.dataset.targetId = itemId;
+        menu.style.display = 'block';
+        menu.style.left = `${Math.min(e.clientX, window.innerWidth - 200)}px`;
+        menu.style.top = `${Math.min(e.clientY, window.innerHeight - 150)}px`;
+
+        // Update pin text
+        const pinItem = menu.querySelector('[data-action="pin"] span');
+        pinItem.textContent = item?.pinned ? 'إلغاء التثبيت' : 'تثبيت';
+      }
+
+      // ==================== GLOBAL FUNCTIONS ====================
+      function exportData() {
+        const data = {
+          items: appState.items,
+          exportedAt: new Date().toISOString(),
+          version: '2.0',
+        };
+
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: 'application/json',
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `mindfulspace_${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('تم تصدير البيانات', 'success');
+      }
+
+      function clearCanvas() {
+        if (!confirm('هل أنت متأكد من مسح كل شيء؟ لا يمكن التراجع عن هذا!'))
+          return;
+
+        appState.items = [];
+        renderAllItems();
+        StateManager.saveState();
+        showToast('تم مسح اللوحة بالكامل', 'info');
+      }
+
+      function closeModal() {
+        document.getElementById('shortcutsModal').style.display = 'none';
+      }
+
+      function showShortcuts() {
+        document.getElementById('shortcutsModal').style.display = 'grid';
+      }
+
+      // ==================== TIMER UPDATES ====================
+      function updateTimers() {
+        let needsSave = false;
+
+        appState.items.forEach((item) => {
+          if (
+            (item.type === 'pomodoro' || item.type === 'stopwatch') &&
+            item.data.active
+          ) {
+            if (item.type === 'stopwatch') {
+              item.data.time++;
+            } else if (item.type === 'pomodoro' && item.data.time > 0) {
+              item.data.time--;
+            }
+
+            // Update display if visible
+            const display = document.querySelector(
+              `#body-${item.id} .timer-display`,
+            );
+            const bar = document.querySelector(
+              `#body-${item.id} .timer-progress-bar`,
+            );
+
+            if (display) {
+              display.textContent =
+                item.type === 'pomodoro'
+                  ? formatTime(item.data.time)
+                  : formatStopwatch(item.data.time);
+            }
+            if (bar && item.type === 'pomodoro') {
+              const progress =
+                ((item.data.originalTime - item.data.time) /
+                  item.data.originalTime) *
+                100;
+              bar.style.width = `${progress}%`;
+            }
+
+            needsSave = true;
+
+            // Pomodoro finished
+            if (
+              item.type === 'pomodoro' &&
+              item.data.time === 0 &&
+              item.data.active
+            ) {
+              item.data.active = false;
+              item.data.sessions = (item.data.sessions || 0) + 1;
+              showToast('🎉 انتهت جلسة البومودورو! استرح قليلاً 🍵', 'success');
+
+              // Update button
+              const toggleBtn = document.querySelector(
+                `#body-${item.id} .timer-toggle`,
+              );
+              if (toggleBtn)
+                toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i> بدء';
+
+              // Re-render to update sessions count
+              setTimeout(() => renderItem(item), 100);
+            }
+          }
+        });
+
+        if (needsSave) {
+          localStorage.setItem('mindful_items', JSON.stringify(appState.items));
+        }
+      }
+
+      // ==================== INITIALIZATION ====================
+      function init() {
+        // Load theme
+        document.documentElement.setAttribute('data-theme', appState.theme);
+        updateThemeIcon();
+
+        // Load data
+        const savedItems = localStorage.getItem('mindful_items');
+        const savedView = localStorage.getItem('mindful_view');
+
+        if (savedItems) {
+          try {
+            appState.items = JSON.parse(savedItems);
+            // Ensure all items have required fields
+            appState.items.forEach((item) => {
+              if (!item.tags) item.tags = [];
+              if (!item.color) item.color = 'default';
+              if (item.pinned === undefined) item.pinned = false;
+              if (item.minimized === undefined) item.minimized = false;
+              if (!item.connections) item.connections = [];
+              if (!item.createdAt) item.createdAt = Date.now();
+            });
+          } catch (e) {
+            console.error('Error loading items:', e);
+            appState.items = [];
+          }
+        }
+
+        if (savedView) {
+          try {
+            appState.view = JSON.parse(savedView);
+          } catch (e) {
+            console.error('Error loading view:', e);
+          }
+        }
+
+        appState.nextId = appState.items.length
+          ? Math.max(...appState.items.map((i) => i.id)) + 1
+          : Date.now();
+
+        renderAllItems();
+        applyView();
+
+        // Event listeners
+        setupEventListeners();
+
+        // Start timer updates
+        setInterval(updateTimers, 1000);
+
+        // Initial state save
+        StateManager.saveState();
+
+        showToast('مرحباً بك في MindfulSpace Pro! 👋', 'success');
+      }
+
+      function updateThemeIcon() {
+        const icon = document.querySelector('#themeToggle i');
+        if (icon) {
+          icon.className =
+            appState.theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        }
+      }
+
+      function setupEventListeners() {
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+          appState.theme = appState.theme === 'light' ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', appState.theme);
+          localStorage.setItem('mindful_theme', appState.theme);
+          updateThemeIcon();
+          showToast(
+            appState.theme === 'dark'
+              ? 'الوضع الليلي مفعل 🌙'
+              : 'الوضع النهاري مفعل ☀️',
+            'info',
+          );
+        });
+
+        // Undo/Redo
+        document
+          .getElementById('undoBtn')
+          .addEventListener('click', () => StateManager.undo());
+        document
+          .getElementById('redoBtn')
+          .addEventListener('click', () => StateManager.redo());
+
+        // Connect mode
+        document
+          .getElementById('connectBtn')
+          .addEventListener('click', toggleConnectMode);
+
+        // Export & Clear
+        document
+          .getElementById('exportBtn')
+          .addEventListener('click', exportData);
+        document
+          .getElementById('clearBtn')
+          .addEventListener('click', clearCanvas);
+
+        // Shortcuts modal
+        document
+          .getElementById('shortcutsBtn')
+          ?.addEventListener('click', showShortcuts);
+
+        // Search
+        document
+          .getElementById('searchInput')
+          .addEventListener('input', (e) => {
+            appState.searchQuery = e.target.value.toLowerCase();
+            filterItems();
+          });
+
+        // FAB
+        const fabBtn = document.getElementById('fabBtn');
+        const fabWrapper = document.getElementById('fabWrapper');
+
+        fabBtn.addEventListener('click', () => {
+          fabWrapper.classList.toggle('open');
+          fabBtn.classList.toggle('active');
+        });
+
+        // Close FAB when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!fabWrapper.contains(e.target)) {
+            fabWrapper.classList.remove('open');
+            fabBtn.classList.remove('active');
+          }
+        });
+
+        // FAB items
+        document.querySelectorAll('.fab-item').forEach((item) => {
+          item.addEventListener('click', () => {
+            createItem(item.dataset.type);
+          });
+        });
+
+        // Context menu actions
+        document.querySelectorAll('.context-item').forEach((item) => {
+          item.addEventListener('click', (e) => {
+            const action = e.currentTarget.dataset.action;
+            const id = parseInt(
+              document.getElementById('contextMenu').dataset.targetId,
+            );
+
+            switch (action) {
+              case 'pin':
+                togglePin(id);
+                break;
+              case 'color':
+                showColorPicker(id);
+                break;
+              case 'duplicate':
+                duplicateItem(id);
+                break;
+              case 'delete':
+                deleteItem(id);
+                break;
+            }
+
+            document.getElementById('contextMenu').style.display = 'none';
+          });
+        });
+
+        // Close context menu on click outside
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.context-menu')) {
+            document.getElementById('contextMenu').style.display = 'none';
+          }
+        });
+
+        // Close modal on outside click
+        document
+          .getElementById('shortcutsModal')
+          .addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+          });
+
+        // Canvas pan & zoom
+        setupCanvasInteractions();
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          const isCtrl = e.ctrlKey || e.metaKey;
+
+          if (isCtrl && e.key === 'z') {
+            e.preventDefault();
+            StateManager.undo();
+          } else if (isCtrl && e.key === 'y') {
+            e.preventDefault();
+            StateManager.redo();
+          } else if (isCtrl && e.key === 'd') {
+            e.preventDefault();
+            document.getElementById('themeToggle').click();
+          } else if (isCtrl && e.key === 's') {
+            e.preventDefault();
+            exportData();
+          } else if (isCtrl && e.key === 'f') {
+            e.preventDefault();
+            document.getElementById('searchInput').focus();
+          } else if (e.key === 'n' || e.key === 'N') {
+            if (
+              document.activeElement?.tagName !== 'INPUT' &&
+              document.activeElement?.contentEditable !== 'true'
+            ) {
+              document.getElementById('fabBtn').click();
+            }
+          } else if (e.key === 'Home') {
+            resetView();
+          } else if (e.key === 'Delete' && appState.selectedItem) {
+            deleteItem(appState.selectedItem);
+          } else if (e.key === 'Escape') {
+            closeModal();
+            document.getElementById('fabWrapper').classList.remove('open');
+            document.getElementById('fabBtn').classList.remove('active');
+            if (appState.connectMode) toggleConnectMode();
+          }
+        });
+      }
+
+      function setupCanvasInteractions() {
+        let isPanning = false;
+        let startX, startY, initialX, initialY;
+
+        const getCoords = (e) => ({
+          x: e.clientX || (e.touches ? e.touches[0].clientX : 0),
+          y: e.clientY || (e.touches ? e.touches[0].clientY : 0),
+        });
+
+        const startPan = (e) => {
+          if (
+            e.target !== viewport &&
+            e.target !== world &&
+            e.target !== connectionsLayer
+          )
+            return;
+          if (appState.connectMode) return;
+
+          isPanning = true;
+          const coords = getCoords(e);
+          startX = coords.x;
+          startY = coords.y;
+          initialX = appState.view.x;
+          initialY = appState.view.y;
+          viewport.style.cursor = 'grabbing';
+
+          // Deselect items
+          document
+            .querySelectorAll('.item')
+            .forEach((i) => i.classList.remove('active'));
+          appState.selectedItem = null;
+        };
+
+        const panMove = (e) => {
+          if (!isPanning) return;
+          const coords = getCoords(e);
+          appState.view.x = initialX + (coords.x - startX);
+          appState.view.y = initialY + (coords.y - startY);
+          applyView();
+        };
+
+        const endPan = () => {
+          if (isPanning) {
+            isPanning = false;
+            viewport.style.cursor = 'grab';
+          }
+        };
+
+        viewport.addEventListener('mousedown', startPan);
+        viewport.addEventListener('touchstart', startPan, { passive: false });
+        window.addEventListener('mousemove', panMove);
+        window.addEventListener('touchmove', panMove, { passive: false });
+        window.addEventListener('mouseup', endPan);
+        window.addEventListener('touchend', endPan);
+
+        // Zoom with wheel
+        viewport.addEventListener(
+          'wheel',
+          (e) => {
+            e.preventDefault();
+            const delta = -e.deltaY * 0.002;
+            const newScale = Math.min(
+              Math.max(0.5, appState.view.scale + delta),
+              2,
+            );
+
+            // Zoom towards mouse
+            const rect = viewport.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const worldX = (mouseX - appState.view.x) / appState.view.scale;
+            const worldY = (mouseY - appState.view.y) / appState.view.scale;
+
+            appState.view.x = mouseX - worldX * newScale;
+            appState.view.y = mouseY - worldY * newScale;
+            appState.view.scale = newScale;
+
+            applyView();
+          },
+          { passive: false },
+        );
+      }
+
+      function filterItems() {
+        const query = appState.searchQuery;
+        document.querySelectorAll('.item').forEach((el) => {
+          const id = parseInt(el.id.replace('item-', ''));
+          const item = appState.items.find((i) => i.id === id);
+
+          if (!query) {
+            el.style.opacity = '1';
+            el.style.pointerEvents = 'auto';
+            return;
+          }
+
+          const matches =
+            item.title.toLowerCase().includes(query) ||
+            (item.content && item.content.toLowerCase().includes(query)) ||
+            (item.data &&
+              Array.isArray(item.data) &&
+              item.data.some(
+                (t) => t.text && t.text.toLowerCase().includes(query),
+              ));
+
+          el.style.opacity = matches ? '1' : '0.2';
+          el.style.pointerEvents = matches ? 'auto' : 'none';
+        });
+      }
+
+      // Start the app
+      init();
+    </script>
+  </body>
 </html>
